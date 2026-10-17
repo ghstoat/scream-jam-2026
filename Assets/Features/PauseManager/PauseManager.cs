@@ -6,13 +6,12 @@ public class PauseManager : MonoBehaviour
 {
 
     public bool paused { get; private set; } = false;
-    private const Key pauseControl = Key.Escape;
+    private const Key pauseControl = Key.Tab;
 
     [SerializeField] GameObject pauseScreen;
 
     [SerializeField] TextMeshProUGUI controlTypeButton;
 
-    private const string CAMCONTROL = "CamControl";
 
     public static PauseManager Instance { get; private set; }
     private void Awake()

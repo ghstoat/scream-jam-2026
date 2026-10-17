@@ -560,7 +560,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   camParent: {fileID: 1579216714414802999}
-  camControl: 0
   sensitivity: 100
   softCamDeadZone: 0.5
   softCamSenMult: 1
@@ -1020,7 +1019,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Esc : Pause'
+  m_text: 'Tab : Pause'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
   m_sharedMaterial: {fileID: 4319321746800169697, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
