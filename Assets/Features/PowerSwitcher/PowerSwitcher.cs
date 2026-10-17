@@ -93,6 +93,7 @@ public class PowerSwitcher : MonoBehaviour
             { 0, PowerReservoir.Instance },
             { 2, OxygenManager.Instance },
             { 6, VentManager.Instance },
+            { 7, RadioManager.Instance },
             { 11, TemperatureManager.Instance },
             { 15, FlashManager.Instance }
         };

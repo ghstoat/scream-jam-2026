@@ -185,6 +185,7 @@ Transform:
   - {fileID: 5842494282693523861}
   - {fileID: 5636882440418628583}
   - {fileID: 3522773030469926836}
+  - {fileID: 6114494819041747851}
   - {fileID: 2648945504262691263}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -206,6 +207,7 @@ MonoBehaviour:
   - {fileID: 1368487882401850056}
   - {fileID: 561021392965320238}
   - {fileID: 5969062312124971204}
+  - {fileID: 5693520897443225960}
   powerReservoir: {fileID: 305299855976137115}
 --- !u!1 &5954468261389331358
 GameObject:
@@ -300,3 +302,54 @@ MonoBehaviour:
   maxOxygen: 30
   powerRequired: 60
   oxygenPerPower: 0.2
+--- !u!1 &7777189420500631328
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6114494819041747851}
+  - component: {fileID: 5693520897443225960}
+  m_Layer: 0
+  m_Name: RadioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6114494819041747851
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7777189420500631328}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3261666808946329349}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5693520897443225960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7777189420500631328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec9482336313334b93c18ba1de38832, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RadioManager
+  maxPower: 100
+  requiredPowerToUseRadio: 75
+  minFrequency: 100
+  maxFrequency: 200
+  OnStartRadioDialogue:
+    m_PersistentCalls:
+      m_Calls: []
