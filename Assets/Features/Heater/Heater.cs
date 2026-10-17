@@ -1,0 +1,48 @@
+using UnityEngine;
+
+public class Heater : MonoBehaviour
+{
+    [SerializeField] float minTemp;
+    [SerializeField] float maxTemp;
+
+    [SerializeField] FillBar extTempBar;
+    [SerializeField] FillBar heaterTempBar;
+    [SerializeField] FillBar intTempBar;
+
+    [SerializeField] LightBulb overheatingLight;
+    [SerializeField] LightBulb livableLight;
+    [SerializeField] LightBulb freezingLight;
+
+    private void Start()
+    {
+        overheatingLight.SetColor(Color.red);
+        freezingLight.SetColor(Color.red);
+
+    }
+
+    private void Update()
+    {
+        UpdateIndicators();
+    }
+
+    private void UpdateIndicators()
+    {
+        extTempBar.SetTargetScaleYFromRatio(GetRatioFromTemp(TemperatureManager.Instance.extTemp));
+        heaterTempBar.SetTargetScaleYFromRatio(GetRatioFromTemp(TemperatureManager.Instance.heaterTemp));
+        intTempBar.SetTargetScaleYFromRatio(GetRatioFromTemp(TemperatureManager.Instance.intTemp));
+
+        if (TemperatureManager.Instance.Overheating) overheatingLight.SetState(LightStates.Blinking);
+        else overheatingLight.SetState(LightStates.Off);
+
+        if (TemperatureManager.Instance.Livable) livableLight.SetState(LightStates.On);
+        else livableLight.SetState(LightStates.Off);
+
+        if (TemperatureManager.Instance.Freezing) freezingLight.SetState(LightStates.Blinking);
+        else freezingLight.SetState(LightStates.Off);
+    }
+
+    private float GetRatioFromTemp(float temp)
+    {
+        return Mathf.Clamp01((temp - minTemp) / (maxTemp - minTemp));
+    }
+}
