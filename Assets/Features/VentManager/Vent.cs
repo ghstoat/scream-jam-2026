@@ -10,6 +10,8 @@ public class Vent : MonoBehaviour
     [SerializeField] LightBulb openingLight;
     [SerializeField] LightBulb closingLight;
 
+    [SerializeField] FillBar powerBar;
+    [SerializeField] LightBulb powerLight;
 
     private void Update()
     {
@@ -43,6 +45,9 @@ public class Vent : MonoBehaviour
             closingLight.SetState(LightStates.Off);
         }
 
+        powerBar.SetTargetScaleYFromRatio(VentManager.Instance.PowerRatio);
+        if (VentManager.Instance.PowerEmpty) powerLight.SetState(LightStates.Off);
+        else powerLight.SetState(LightStates.On);
     }
 
     public void TryToOpen()

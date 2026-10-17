@@ -1,5 +1,6 @@
 
 using System.Threading;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -14,9 +15,11 @@ public enum CamControl
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private GameObject camParent;
+
     [Header("Settings")]
 
-    [SerializeField] private CamControl camControl;
+    public CamControl camControl { get; private set; } = CamControl.Soft;
 
     [SerializeField] private float sensitivity;
     [SerializeField] private float softCamDeadZone;
@@ -33,6 +36,10 @@ public class PlayerController : MonoBehaviour
 
     private float normalFOV;
 
+    [Header("UI Control")]
+    [SerializeField] GameObject wasdLookControl;
+    [SerializeField] GameObject altFreeControl;
+
     [Header("Horizontal Constraints")]
     [SerializeField] private float minHorizontalAngle;
     [SerializeField] private float maxHorizontalAngle;
@@ -45,10 +52,29 @@ public class PlayerController : MonoBehaviour
     private float verticalRotation;
 
     private const Key freeCursorControl = Key.LeftAlt;
+    public const string CAMCONTROL = "CamControl";
+
+    public static PlayerController Instance { get; private set; }
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Debug.LogError($"!!! Multiple {this.name} found in scene.");
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
+
+        int savedCamControl = PlayerPrefs.GetInt(CAMCONTROL, 0);
+        camControl = (CamControl)savedCamControl;
+    }
+
 
     private void Start()
     {
-        Vector3 rotation = transform.localEulerAngles;
+        Vector3 rotation = camParent.transform.localEulerAngles;
 
         horizontalRotation = rotation.y;
         if (horizontalRotation > 180f) horizontalRotation -= 360f;
@@ -57,10 +83,16 @@ public class PlayerController : MonoBehaviour
         if (verticalRotation > 180f) verticalRotation -= 360f;
 
         normalFOV = playerCamera.fieldOfView;
+
+
     }
 
     private void Update()
     {
+        if (PauseManager.Instance.paused) return;
+
+        UpdateControlUI();
+
         switch (camControl)
         {
             case CamControl.Soft:
@@ -72,6 +104,28 @@ public class PlayerController : MonoBehaviour
         }
         HandleZoom();
     }
+
+    public void SetControlType(CamControl control)
+    {
+        camControl = control;
+        PlayerPrefs.SetInt(CAMCONTROL, (int)camControl);
+        PlayerPrefs.Save();
+    }
+
+    private void UpdateControlUI()
+    {
+        if (camControl == CamControl.Soft || camControl == CamControl.Hard)
+        {
+            altFreeControl.SetActive(true);
+            wasdLookControl.SetActive(false);
+        }
+        else if (camControl == CamControl.Manual)
+        {
+            altFreeControl.SetActive(false);
+            wasdLookControl.SetActive(true);
+        }
+    }
+
     private void HandleZoom()
     {
         float targetFOV = Mouse.current.rightButton.isPressed ? zoomFOV : normalFOV;
@@ -110,7 +164,7 @@ public class PlayerController : MonoBehaviour
         verticalRotation -= cursorDirection.y * softCamSen * Time.deltaTime;
         verticalRotation = Mathf.Clamp(verticalRotation, minVerticalAngle, maxVerticalAngle);
 
-        transform.localRotation = Quaternion.Euler(verticalRotation, horizontalRotation, 0f);
+        camParent.transform.localRotation = Quaternion.Euler(verticalRotation, horizontalRotation, 0f);
     }
 
 
@@ -136,7 +190,7 @@ public class PlayerController : MonoBehaviour
         verticalRotation -= mouseY;
         verticalRotation = Mathf.Clamp(verticalRotation, minVerticalAngle, maxVerticalAngle);
 
-        transform.localRotation = Quaternion.Euler(verticalRotation, horizontalRotation,0f);
+        camParent.transform.localRotation = Quaternion.Euler(verticalRotation, horizontalRotation,0f);
     }
 
 
@@ -167,7 +221,7 @@ public class PlayerController : MonoBehaviour
 
         verticalRotation = Mathf.Clamp(verticalRotation, minVerticalAngle, maxVerticalAngle);
 
-        transform.localRotation = Quaternion.Euler(verticalRotation, horizontalRotation, 0f);
+        camParent.transform.localRotation = Quaternion.Euler(verticalRotation, horizontalRotation, 0f);
     }
 
     private void SetCursorState(CursorLockMode lockMode)

@@ -28,6 +28,8 @@ public class InteractableManager : MonoBehaviour
 
     private void Update()
     {
+        if (PauseManager.Instance.paused) return;
+
         if (draggedInteractable != null && (!IsOnHoverLayer(draggedInteractable) || IsCursorTooFar(draggedInteractable)))
         {
             draggedInteractable.OnDragExit();

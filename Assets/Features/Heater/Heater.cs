@@ -13,6 +13,9 @@ public class Heater : MonoBehaviour
     [SerializeField] LightBulb livableLight;
     [SerializeField] LightBulb freezingLight;
 
+    [SerializeField] FillBar powerBar;
+    [SerializeField] LightBulb powerLight;
+
     private void Start()
     {
         overheatingLight.SetColor(Color.red);
@@ -39,6 +42,10 @@ public class Heater : MonoBehaviour
 
         if (TemperatureManager.Instance.Freezing) freezingLight.SetState(LightStates.Blinking);
         else freezingLight.SetState(LightStates.Off);
+
+        powerBar.SetTargetScaleYFromRatio(TemperatureManager.Instance.PowerRatio);
+        if (TemperatureManager.Instance.PowerEmpty) powerLight.SetState(LightStates.Off);
+        else powerLight.SetState(LightStates.On);
     }
 
     private float GetRatioFromTemp(float temp)

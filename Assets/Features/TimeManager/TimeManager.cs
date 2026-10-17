@@ -52,7 +52,14 @@ public class TimeManager : MonoBehaviour
     {
         paused = pause;
 
-        if (pause) { Time.timeScale = 0; }
+        if (pause)
+        {
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            UpdateTimeScale();
+        }
     }
 
     public void SlowTime(float timeScale, float duration, bool useScaledTime, string key = null)
