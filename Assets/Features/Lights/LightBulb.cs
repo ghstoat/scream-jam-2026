@@ -6,7 +6,8 @@ public enum LightStates
 {
     Off,
     On,
-    Blinking
+    Blinking,
+    Strobing
 }
 
 public class LightBulb : MonoBehaviour
@@ -19,13 +20,14 @@ public class LightBulb : MonoBehaviour
 
     [Header("Blink Settings")]
     [SerializeField] private float blinkInterval = 0.5f;
+    [SerializeField] private float strobeInterval = 0.1f;
 
     [Header("Bulb Appearance")]
     [SerializeField] Texture2D bulbOnTex;
     [SerializeField] Texture2D bulbOffTex;
 
     [SerializeField] private Color defaultColor = Color.orange;
-    [SerializeField] private Color emissionColor = Color.yellow;
+    private Color emissionColor;
 
     [SerializeField] private float emissionIntensity = 2f;
 
@@ -38,6 +40,7 @@ public class LightBulb : MonoBehaviour
     private void Awake()
     {
         bulbMat = bulbRenderer.material;
+        emissionColor = defaultColor;   
     }
 
     private void Start()
@@ -48,7 +51,7 @@ public class LightBulb : MonoBehaviour
     public void SetColor(Color color)
     {
         emissionColor = color;
-        if (state != LightStates.Off)
+        if (state == LightStates.On)
         {
             Color emission = emissionColor * emissionIntensity;
             bulbMat.SetColor(EmissionColorID, emission);
@@ -78,6 +81,10 @@ public class LightBulb : MonoBehaviour
             case LightStates.Blinking:
                 blinkCoroutine = StartCoroutine(BlinkRoutine());
                 break;
+
+            case LightStates.Strobing:
+                blinkCoroutine = StartCoroutine(BlinkRoutine());
+                break;
         }
     }
 
@@ -89,8 +96,11 @@ public class LightBulb : MonoBehaviour
         Color emission = isOn? emissionColor * emissionIntensity : Color.black;
             
         pointLight.color = emissionColor;
-        bulbMat.SetColor(EmissionColorID, emission);
+
+        bulbMat.SetColor(EmissionColorID, Color.black);
+        
         bulbMat.SetTexture(BaseMapID, tex);
+
     }
 
     private IEnumerator BlinkRoutine()
@@ -102,7 +112,11 @@ public class LightBulb : MonoBehaviour
             isOn = !isOn;
             ApplyLight(isOn);
 
-            yield return new WaitForSeconds(blinkInterval);
+            float interval = blinkInterval;
+            if (state == LightStates.Strobing) interval = strobeInterval;
+            
+
+            yield return new WaitForSeconds(interval);
         }
     }
 

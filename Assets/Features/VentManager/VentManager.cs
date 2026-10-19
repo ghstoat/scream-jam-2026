@@ -3,14 +3,14 @@ using UnityEngine;
 public class VentManager : PoweredSystem
 {
 
-    public float closingProgress { get; private set; } = 0f;
+    public float closingProgress { get; private set; } = 1f;
 
     public bool Open => closingProgress < 1f;
     public bool Closed => closingProgress == 1f;
 
     [SerializeField] float openingSpeedPerPower;
 
-    public bool opening { get; private set; } = true;
+    public bool opening { get; private set; } = false;
 
     public static VentManager Instance { get; private set; }
     private void Awake()
@@ -24,8 +24,8 @@ public class VentManager : PoweredSystem
 
         Instance = this;
 
-        closingProgress = 0f;
-        opening = true;
+        closingProgress = 1f;
+        opening = false;
     }
 
     private void Update()

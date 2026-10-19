@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08acc89c0db7be941a7ac7ad8775ab3c, type: 3}
+  m_Name: FC8
+  m_EditorClassIdentifier: Assembly-CSharp::RadioDialogue
+  lines:
+  - text: This is a direct order.
+    voiceline: {fileID: 8300000, guid: a72b7f6af3b761b41846596114a518dc, type: 3}
+  - text: Do not leave the premises of the mech until dawn.
+    voiceline: {fileID: 8300000, guid: 4f04bf8ea025981488f18f6c9e7a7470, type: 3}
+  - text: We will collect you then.
+    voiceline: {fileID: 8300000, guid: afd188666928dbc4a9b54c39cbe86b66, type: 3}
+  - text: You know it's not safe to tread outside at night.
+    voiceline: {fileID: 8300000, guid: 49c9c57efa7788848a5c72b8379dc198, type: 3}
+  - text: 'Keep your wits, and stay alive. '
+    voiceline: {fileID: 8300000, guid: bdc6bc4869d321248bd19e35d1f102f3, type: 3}
+  frequency: 160
+  playerDialogue: {fileID: 11400000, guid: fcae9d7bc6d5aac4a9cda30d6ffcdace, type: 2}

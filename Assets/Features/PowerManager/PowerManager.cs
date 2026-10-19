@@ -32,11 +32,23 @@ public class PowerManager : MonoBehaviour
 
     private void Start()
     {
-        DrainAllSystems();
+        powerReservoir.UpdatePowerReservoirMaxPower();
+
+        //DrainAllSystems();
+    }
+
+    public void FillAllSystems()
+    {
+
+        foreach (var system in allPoweredSystems)
+        {
+            system.FillPower();
+        }
     }
 
     public void DrainAllSystems()
     {
+
         powerReservoir.UpdatePowerReservoirMaxPower();
 
         foreach (var system in allPoweredSystems)
@@ -45,6 +57,7 @@ public class PowerManager : MonoBehaviour
         }
 
         if (!powerReservoir.PowerFull) powerReservoir.AllocatePower(totalPower); //refill any lost power
+
     }
 
     public void DrainSystem(PoweredSystem system)

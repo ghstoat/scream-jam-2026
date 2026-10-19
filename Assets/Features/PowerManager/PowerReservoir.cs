@@ -16,9 +16,19 @@ public class PowerReservoir : PoweredSystem
         Instance = this;
     }
 
+    private void Start()
+    {
+        UpdatePowerReservoirMaxPower();
+    }
+
     public void UpdatePowerReservoirMaxPower()
     {
         maxPower = PowerManager.Instance.TotalPower;
+    }
+
+    public override void FillPower()
+    {
+        
     }
 
 }

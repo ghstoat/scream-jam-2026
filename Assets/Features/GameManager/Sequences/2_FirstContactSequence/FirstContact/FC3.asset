@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d201ef38c6229cd4197b4413f9ca5e5c, type: 3}
+  m_Name: FC3
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDialogue
+  priority: 1
+  lines:
+  - text: 'Mech is down! I''m in the middle of some forest! '
+    voiceline: {fileID: 8300000, guid: d58176b4c2bb13f499ff8d862eacfc5c, type: 3}
+  - text: "The fuel is leaking and I don\u2019t know\u2014"
+    voiceline: {fileID: 8300000, guid: 73b4e764f6f7e43478c8b9210d478870, type: 3}
+  - text: "I don\u2019t know what to do!"
+    voiceline: {fileID: 8300000, guid: a604bac6f6d393d4ba6bd1031cf77f66, type: 3}

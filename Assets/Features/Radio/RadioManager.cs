@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,7 +16,7 @@ public enum RadioState
 
 public class RadioManager : PoweredSystem
 {
-    public Queue<RadioDialogue> messages = new Queue<RadioDialogue>();
+    private Queue<RadioDialogue> messages = new Queue<RadioDialogue>();
     public RadioState state { get; private set; } = RadioState.None;
 
 
@@ -33,7 +34,15 @@ public class RadioManager : PoweredSystem
     public int MinFrequency => minFrequency;
     public int MaxFrequency => maxFrequency;
 
-    public UnityEvent OnStartRadioDialogue;
+    public UnityEvent OnRadioDialogueStart;
+    public UnityEvent OnRadioDialogueEnd;
+
+
+    [Header("Player dialogue")]
+    [SerializeField] PlayerDialogue radioEmpty;
+    [SerializeField] PlayerDialogue radioNoPower;
+    [SerializeField] PlayerDialogue wrongFrequency;
+
 
     public static RadioManager Instance { get; private set; }
     private void Awake()
@@ -73,6 +82,16 @@ public class RadioManager : PoweredSystem
         messages.Enqueue(message);
     }
 
+    public void ReceiveMessage(Conversation conversation)
+    {
+        RadioDialogue[] messages = conversation.Dialogue;
+
+        foreach (RadioDialogue message in messages)
+        {
+            ReceiveMessage(message);
+        }
+    }
+
     public void Update()
     {
         if (state == RadioState.None && messages.Count > 0)
@@ -90,6 +109,21 @@ public class RadioManager : PoweredSystem
 
     public void TalkButtonPressed()
     {
+        if (state == RadioState.None)
+        {
+            PlayerDialogueManager.Instance.ForceDialogue(radioEmpty);
+        }
+        else if (!CanUseRadio)
+        {
+            PlayerDialogueManager.Instance.ForceDialogue(radioNoPower);
+        }
+
+        else if (frequency != incomingMessage.frequency)
+        {
+            PlayerDialogueManager.Instance.ForceDialogue(wrongFrequency);
+        }
+
+
         if (state == RadioState.Waiting && frequency == incomingMessage.frequency && CanUseRadio)
         {
             StartOutgoing();
@@ -101,6 +135,9 @@ public class RadioManager : PoweredSystem
         state = RadioState.Outgoing;
         dialogueStarted = false;
         PlayerDialogueManager.Instance.ForceDialogue(incomingMessage.playerDialogue);
+
+        PlayerDialogueManager.Instance.ignoreNonPriority = true;
+
     }
     private void OnPlayerDialogueStart()
     {
@@ -115,13 +152,23 @@ public class RadioManager : PoweredSystem
     {
         state = RadioState.Incoming;
         dialogueStarted = false;
-        OnStartRadioDialogue.Invoke();
+        OnRadioDialogueStart.Invoke();
     }
 
-    public void OnRadioDialogueEnd() //called when incoming dialogue is done
+    public void OnGoToNextRadioDialogue() //called when incoming dialogue is done
     {
+        if (messages.Count > 0)
+        {
+            incomingMessage = messages.Dequeue();
+            StartOutgoing();
+            return;
+        }
+
         incomingMessage = null;
-        state = RadioState.None; 
+        state = RadioState.None;
+        PlayerDialogueManager.Instance.ignoreNonPriority = false;
+
+        OnRadioDialogueEnd?.Invoke();
     }
 
 }

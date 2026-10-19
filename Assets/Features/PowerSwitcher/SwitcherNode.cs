@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public enum NodeState
 {
@@ -18,8 +19,17 @@ public class SwitcherNode : Interactable
     public Vector3 JackPos => jackPosTransform.position;
 
     private float powerRatio;
-    [SerializeField] float maxLightIntensity = 0.1f;
-    [SerializeField] Light light;
+
+    [SerializeField] GameObject ringLight;
+    [SerializeField] Renderer ringLightRenderer;
+
+    [SerializeField] float minRingLightIntensity = 1f;
+    [SerializeField] float maxRingLightIntensity = 5f;
+    [SerializeField] Color ringLightColor = Color.orange;
+    private static readonly int EmissionColorID = Shader.PropertyToID("_Emission");
+
+
+    private bool broken = false;
 
     [Header("SFX")]
     [SerializeField] AudioSource sfxSource;
@@ -37,12 +47,18 @@ public class SwitcherNode : Interactable
     {
         powerRatio = ratio; 
 
-        float lightIntensity = maxLightIntensity * powerRatio;
-        light.intensity = lightIntensity;
+
+        Material ringMat = ringLightRenderer.material;
+        float intensity = (ratio * (maxRingLightIntensity - minRingLightIntensity)) + minRingLightIntensity;
+        Color emission = ringLightColor * intensity;
+        ringMat.SetColor(EmissionColorID, emission);
+        //pointLight.color = color;
     }
 
     public override void OnDragStart()
     {
+        if (broken) return;
+
         base.OnDragStart();
 
         if (state == NodeState.None)
@@ -64,7 +80,12 @@ public class SwitcherNode : Interactable
         sfxSource.Play();
     }
 
-
+    public void SetBroken(bool broken)
+    {
+        this.broken = broken;
+        Lock(broken);
+        ringLight.SetActive(!broken);
+    }
     public void ResetState()
     {
         state = NodeState.None;

@@ -64,6 +64,12 @@ public class Rotatable : Interactable
         previousDirection = direction;
     }
 
+    public override void OnDragExit()
+    {
+        base.OnDragExit();
+        rotationDelta = 0;
+    }
+
     protected Vector2 GetMouseDirection(Vector2 screenPosition)
     {
         Ray ray = targetCamera.ScreenPointToRay(screenPosition);

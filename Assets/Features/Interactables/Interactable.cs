@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    [SerializeField] private Renderer objectRenderer;
+    [SerializeField] protected Renderer objectRenderer;
 
     private static readonly int GlowID = Shader.PropertyToID("_Glow");
     private bool isGlowing;
@@ -15,9 +15,16 @@ public class Interactable : MonoBehaviour
     private const string INTERACTABLE = "Interactable";
     private const string BACKGROUND = "Background";
 
+    public bool locked { private set; get; } = false;
+
     private void Start()
     {
         Init();
+    }
+
+    public void Lock(bool locked)
+    {
+        this.locked = locked;
     }
 
     protected virtual void Init()
@@ -61,13 +68,13 @@ public class Interactable : MonoBehaviour
         if (interactable)
         {
             int targetLayer = LayerMask.NameToLayer(INTERACTABLE);
-            gameObject.layer = targetLayer;
+            objectRenderer.gameObject.layer = targetLayer;
         }
 
         else
         {
             int targetLayer = LayerMask.NameToLayer(BACKGROUND);
-            gameObject.layer = targetLayer;
+            objectRenderer.gameObject.layer = targetLayer;
         }
     }
 

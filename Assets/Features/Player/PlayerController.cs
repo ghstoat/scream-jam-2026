@@ -1,4 +1,5 @@
 
+using System.Collections;
 using System.Threading;
 using UnityEditor;
 using UnityEngine;
@@ -16,6 +17,8 @@ public enum CamControl
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject camParent;
+
+    private bool locked = false;
 
     [Header("Settings")]
 
@@ -84,12 +87,15 @@ public class PlayerController : MonoBehaviour
 
         normalFOV = playerCamera.fieldOfView;
 
-
+        locked = false;
     }
 
     private void Update()
     {
         if (PauseManager.Instance.paused) return;
+        if (NoteManager.Instance.open) return;
+        if (TutorialManager.Instance.ShowingTutorial) return;
+        if (locked) return;
 
         UpdateControlUI();
 
@@ -103,6 +109,11 @@ public class PlayerController : MonoBehaviour
                 HandleManualCam(); break;
         }
         HandleZoom();
+    }
+
+    public void Lock(bool locked)
+    {
+        this.locked = locked;
     }
 
     public void SetControlType(CamControl control)
@@ -227,5 +238,109 @@ public class PlayerController : MonoBehaviour
     private void SetCursorState(CursorLockMode lockMode)
     {
         if (Cursor.lockState != lockMode) Cursor.lockState = lockMode;
+    }
+
+    public void LookAtTransform(Transform target, float duration = 0f, float pause = 0f)
+    {
+        if (target == null) return;
+        Lock(true);
+        NoteManager.Instance.CloseNote();
+
+        Transform camTransform = camParent.transform;
+
+        // Direction from the camera to the target in world space.
+        Vector3 direction = target.position - camTransform.position;
+
+        if (direction.sqrMagnitude < 0.0001f) return;
+
+        // Convert direction into the camera parent's local space.
+        Transform parent = camTransform.parent;
+
+        Vector3 localDirection = parent != null
+            ? parent.InverseTransformDirection(direction)
+            : direction;
+
+        // Calculate the required local camera rotation.
+        Quaternion targetRotation = Quaternion.LookRotation(localDirection);
+        Vector3 angles = targetRotation.eulerAngles;
+
+        float targetHorizontal = angles.y;
+        float targetVertical = angles.x;
+
+        if (targetHorizontal > 180f) targetHorizontal -= 360f;
+        if (targetVertical > 180f) targetVertical -= 360f;
+
+        // Temporarily ignore camera angle limits for the jumpscare.
+        if (duration <= 0f)
+        {
+            horizontalRotation = targetHorizontal;
+            verticalRotation = targetVertical;
+
+            camTransform.localRotation = Quaternion.Euler(
+                verticalRotation, horizontalRotation, 0f);
+
+            return;
+        }
+
+        StopCoroutineIfRotating();
+        rotationCoroutine = StartCoroutine(
+            RotateToTarget(targetHorizontal, targetVertical, duration, pause));
+    }
+
+    private Coroutine rotationCoroutine;
+
+    private void StopCoroutineIfRotating()
+    {
+        if (rotationCoroutine != null)
+        {
+            StopCoroutine(rotationCoroutine);
+            rotationCoroutine = null;
+        }
+    }
+
+    private IEnumerator RotateToTarget(
+        float targetHorizontal,
+        float targetVertical,
+        float duration,
+        float pause)
+    {
+        float startHorizontal = horizontalRotation;
+        float startVertical = verticalRotation;
+        float elapsed = 0f;
+
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+
+            // Smooth acceleration and deceleration.
+            t = t * t * (3f - 2f * t);
+
+            horizontalRotation = Mathf.LerpAngle(
+                startHorizontal, targetHorizontal, t);
+
+            verticalRotation = Mathf.Lerp(
+                startVertical, targetVertical, t);
+
+            camParent.transform.localRotation = Quaternion.Euler(
+                verticalRotation, horizontalRotation, 0f);
+
+            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, zoomFOV, zoomSpeed * Time.deltaTime);
+
+            yield return null;
+        }
+
+        horizontalRotation = targetHorizontal;
+        verticalRotation = targetVertical;
+
+        camParent.transform.localRotation = Quaternion.Euler(
+            verticalRotation, horizontalRotation, 0f);
+
+        yield return new WaitForSeconds(pause); 
+
+        Lock(false);
+
+        rotationCoroutine = null;
     }
 }

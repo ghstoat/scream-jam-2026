@@ -16,6 +16,10 @@ public class NodeData
 
 public class PowerSwitcher : MonoBehaviour
 {
+    [Header("Lever Reference")]
+    [SerializeField] ResettingLever powerResetLever;
+    public ResettingLever PowerResetLever => powerResetLever;
+
     [Header("Node References")]
     [SerializeField] private Transform nodeParent;
     [SerializeField] private List<NodeData> nodes = new();
@@ -56,6 +60,13 @@ public class PowerSwitcher : MonoBehaviour
     private SwitcherNode pointA;
     private SwitcherNode pointB;
 
+    [SerializeField] GameObject tagA;
+    [SerializeField] GameObject tagB;
+
+    [Header("Player Dialogue")]
+    [SerializeField] PlayerDialogue jacksNotAssigned;
+
+
     public NodeState lastState = NodeState.None;
 
 
@@ -81,6 +92,8 @@ public class PowerSwitcher : MonoBehaviour
 
     public void DrainAllSystems()
     {
+        CockpitManager.Instance.SetState(CockpitState.Reset);
+
         PowerManager.Instance.DrainAllSystems();
     }
 
@@ -100,10 +113,19 @@ public class PowerSwitcher : MonoBehaviour
 
         for (int i = 0; i < nodes.Count; i++)
         {
+            nodes[i].node.Init(this);
+
             if (poweredSystemDict.ContainsKey(i))
             {
                 PoweredSystem system = poweredSystemDict[i];
-                if (system != null) nodes[i].poweredSystem = system; 
+                nodes[i].poweredSystem = system;
+
+                nodes[i].node.SetBroken(false);
+
+            }
+            else
+            {
+                nodes[i].node.SetBroken(true);
             }
         }
 
@@ -111,12 +133,15 @@ public class PowerSwitcher : MonoBehaviour
 
     private void UpdateValveRotation()
     {
+
+        if (valve.RotationDelta== 0) return;
+
         if (!PowerManager.Instance.IsSystemsABAssigned())
         {
-            valve.SetInteractable(false);
+            PlayerDialogueManager.Instance.ForceDialogue(jacksNotAssigned);
             return;
         }
-        else valve.SetInteractable(true);
+        
 
 
         PowerManager.Instance.MovePowerFromAToB(-(int)(valve.RotationDelta * valveStrength));
@@ -181,7 +206,7 @@ public class PowerSwitcher : MonoBehaviour
                 node.transform.localRotation = Quaternion.identity;
                 node.transform.localScale = Vector3.one;
 
-                SwitcherNode nodeScript = node.GetComponent<SwitcherNode>();
+                SwitcherNode nodeScript = node.GetComponentInChildren<SwitcherNode>();
                 nodeScript.Init(this);
                 nodes.Add(new NodeData());
 
@@ -261,36 +286,54 @@ public class PowerSwitcher : MonoBehaviour
     public void SetPointA(SwitcherNode node)
     {
         pointA = node;
-        
+        bool found = false;
+
         foreach (NodeData nodeData in nodes)
         {
             if (nodeData.node != node) continue;
 
+            found = true;
             PowerManager.Instance.SetSystemA(nodeData.poweredSystem);
+
+            tagA.SetActive(true);
         }
+
+        if (!found) tagA.SetActive(false);
+
     }
 
     public void SetPointB(SwitcherNode node)
     {
         pointB = node;
+        bool found = false;
 
         foreach (NodeData nodeData in nodes)
         {
             if (nodeData.node != node) continue;
 
+            found = true;
             PowerManager.Instance.SetSystemB(nodeData.poweredSystem);
+
+            tagB.SetActive(true);
+
         }
+
+        if (!found) tagB.SetActive(false);
     }
     public void ClearPointA()
     {
         pointA = null;
-        PowerManager.Instance.SetSystemA(null);      
+        PowerManager.Instance.SetSystemA(null);
+        tagA.SetActive(false);
+
     }
+
 
     public void ClearPointB()
     {
         pointB = null;
         PowerManager.Instance.SetSystemB(null);
+        tagB.SetActive(false);
     }
 
     private IEnumerator JackMovementRoutine(Transform jack, Vector3 targetPosition, bool isJackA, SwitcherNode node)

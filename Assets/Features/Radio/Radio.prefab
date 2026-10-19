@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Radio
   outgoingDisplayText: {fileID: 817120495739604914}
   incomingDisplayText: {fileID: 4363661020332188685}
+  incomingLight: {fileID: 5080184936737373257}
   talkButton: {fileID: 8606591390838481195}
   dial: {fileID: 6925920112369780858}
   powerBar: {fileID: 8046246463526190857}
@@ -57,7 +58,7 @@ MonoBehaviour:
   dialogueSource: {fileID: 4047278190585432745}
   captionText: {fileID: 2723086376279033956}
   timeBetweenLines: 0.2
-  timeBetweenDialogue: 1.5
+  timeBetweenDialogue: 0.5
   characterDelay: 0.04
 --- !u!1 &92479075857000870
 GameObject:
@@ -2112,7 +2113,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 3122902355301058960, guid: fb44ef7a9c17e554f923bcb051e6e999, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -2121,7 +2122,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 20
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -2157,7 +2158,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.85
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2264,8 +2265,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Captions here! '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
-  m_sharedMaterial: {fileID: 4319321746800169697, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e2dcb9b08ffbd8f41b87cea73e6047f0, type: 2}
+  m_sharedMaterial: {fileID: 4319321746800169697, guid: e2dcb9b08ffbd8f41b87cea73e6047f0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2594,7 +2595,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 140731968621746093, guid: 0798544c83906c146b0a56e4eccd6f33, type: 3}
       propertyPath: m_Name
-      value: PowerLight
+      value: IncomingLight
       objectReference: {fileID: 0}
     - target: {fileID: 4654808400995015070, guid: 0798544c83906c146b0a56e4eccd6f33, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2641,6 +2642,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0798544c83906c146b0a56e4eccd6f33, type: 3}
+--- !u!114 &5080184936737373257 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8262175518058392871, guid: 0798544c83906c146b0a56e4eccd6f33, type: 3}
+  m_PrefabInstance: {fileID: 3758629455649165678}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abe4a1f10b46684c898fa8bc68cc8d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightBulb
 --- !u!4 &8408332686640679152 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4654808400995015070, guid: 0798544c83906c146b0a56e4eccd6f33, type: 3}

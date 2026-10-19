@@ -13,6 +13,9 @@ public class Heater : MonoBehaviour
     [SerializeField] LightBulb livableLight;
     [SerializeField] LightBulb freezingLight;
 
+    [SerializeField] Renderer coil;
+    [SerializeField] float maxCoilIntensity = 10;
+
     [SerializeField] FillBar powerBar;
     [SerializeField] LightBulb powerLight;
 
@@ -46,6 +49,10 @@ public class Heater : MonoBehaviour
         powerBar.SetTargetScaleYFromRatio(TemperatureManager.Instance.PowerRatio);
         if (TemperatureManager.Instance.PowerEmpty) powerLight.SetState(LightStates.Off);
         else powerLight.SetState(LightStates.On);
+
+
+        float intensity = maxCoilIntensity * TemperatureManager.Instance.PowerRatio;
+        coil.material.SetColor("_Color", Color.white * intensity);
     }
 
     private float GetRatioFromTemp(float temp)

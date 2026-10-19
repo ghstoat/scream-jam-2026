@@ -34,7 +34,7 @@ public class OxygenMeter : MonoBehaviour
         if (OxygenManager.Instance.GeneratingOxygen) generatingOxygenLight.SetState(LightStates.On);
         else generatingOxygenLight.SetState(LightStates.Off);
 
-        if (OxygenManager.Instance.OxygenRatio > 0.5)
+        if (OxygenManager.Instance.OxygenRatio > 0.38)
         {
             highOxygenLight.SetState(LightStates.On);
             lowOxygenLight.SetState(LightStates.Off);
@@ -44,10 +44,15 @@ public class OxygenMeter : MonoBehaviour
             highOxygenLight.SetState(LightStates.Off);
             lowOxygenLight.SetState(LightStates.On);
         }
-        else
+        else if (OxygenManager.Instance.OxygenRatio > 0)
         {
             highOxygenLight.SetState(LightStates.Off);
             lowOxygenLight.SetState(LightStates.Blinking);
+        }
+        else
+        {
+            highOxygenLight.SetState(LightStates.Off);
+            lowOxygenLight.SetState(LightStates.Strobing);
         }
     }
 }

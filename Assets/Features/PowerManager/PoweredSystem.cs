@@ -10,6 +10,13 @@ public abstract class PoweredSystem : MonoBehaviour
 
     [SerializeField, Min(0)] protected int maxPower;
 
+    
+
+    public virtual void FillPower()
+    {
+        AllocatePower(maxPower);
+    }
+
     public int GetAllocateOffset(int power)
     {
         if (currentPower + power <= maxPower) return 0;
@@ -27,10 +34,7 @@ public abstract class PoweredSystem : MonoBehaviour
     public void AllocatePower(int power)
     {
         currentPower += power;
-        if (currentPower > maxPower)
-        {
-            Debug.LogWarning($"!!! {this.name} has somehow exceeded it's max power!");
-        }
+        currentPower = Mathf.Clamp(currentPower, 0, maxPower);
     }
 
     public void WithdrawPower(int power)

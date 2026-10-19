@@ -143,12 +143,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TemperatureManager
   maxPower: 100
-  minLivableTemp: 0
+  minLivableTemp: 10
   maxLivableTemp: 30
-  minExtTemp: -45
-  maxExtTemp: 25
-  maxHeaterTemp: 80
-  tempChangeSpeed: 2
+  minExtTemp: -40
+  maxExtTemp: 0
+  maxHeaterTemp: 50
+  tempChangeSpeed: 4
   minTimeBetweenSolarFlares: 180
   maxTimeBetweenSolarFlares: 300
 --- !u!1 &4074253271724983418
@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OxygenManager
   maxPower: 100
-  maxOxygen: 30
+  maxOxygen: 150
   powerRequired: 60
   oxygenPerPower: 0.2
 --- !u!1 &7777189420500631328
@@ -350,6 +350,12 @@ MonoBehaviour:
   requiredPowerToUseRadio: 75
   minFrequency: 100
   maxFrequency: 200
-  OnStartRadioDialogue:
+  OnRadioDialogueStart:
     m_PersistentCalls:
       m_Calls: []
+  OnRadioDialogueEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  radioEmpty: {fileID: 11400000, guid: 3d5cd7e802f135348ab913857a8c3a6d, type: 2}
+  radioNoPower: {fileID: 11400000, guid: 347455eba7de46b4cab6d47d728e722f, type: 2}
+  wrongFrequency: {fileID: 11400000, guid: 835a9e2cb6fa1ef4f97037cc972c5d54, type: 2}

@@ -8,6 +8,9 @@ public class Radio : MonoBehaviour
     [SerializeField] TextMeshProUGUI outgoingDisplayText; 
     [SerializeField] TextMeshProUGUI incomingDisplayText;
 
+    [SerializeField] LightBulb incomingLight;
+    public LightBulb IncomingLight => incomingLight;
+
     [SerializeField] Button talkButton; 
     [SerializeField] Dial dial;
 
@@ -16,9 +19,9 @@ public class Radio : MonoBehaviour
     [SerializeField] LightBulb powerLight;
 
 
-    private const float estimateWPM = 40;
+    private const float estimateWPM = 200;
 
-    public Queue<RadioDialogue> dialogueQueue = new Queue<RadioDialogue>();
+    private Queue<RadioDialogue> dialogueQueue = new Queue<RadioDialogue>();
 
 
     [Header("References")]
@@ -36,7 +39,7 @@ public class Radio : MonoBehaviour
 
     private void Start()
     {
-        RadioManager.Instance.OnStartRadioDialogue.AddListener(StartRadioDialogue);
+        RadioManager.Instance.OnRadioDialogueStart.AddListener(StartRadioDialogue);
 
         dialogueQueue.Clear();
         ClearCaptions();
@@ -48,8 +51,7 @@ public class Radio : MonoBehaviour
         UpdateIndicators();
         UpdateFrequency(dial.Value);
 
-        if (RadioManager.Instance.state == RadioState.Waiting && RadioManager.Instance.CanUseRadio ) talkButton.SetInteractable(true);
-        else talkButton.SetInteractable(false);
+
 
         if (dialogueRoutine == null && dialogueQueue.Count > 0) dialogueRoutine = StartCoroutine(DialogueRoutine());
 
@@ -61,10 +63,33 @@ public class Radio : MonoBehaviour
         if (RadioManager.Instance.incomingMessage != null)
         {
             incomingDisplayText.text = $"{RadioManager.Instance.incomingMessage.frequency:000.00}";
-        }
-        else incomingDisplayText.text = "000.00";
 
-        
+        }
+        else
+        {
+            incomingDisplayText.text = "000.00";
+        }
+
+        switch (RadioManager.Instance.state)
+        {
+            case RadioState.Waiting:
+                incomingLight.SetColor(Color.cornflowerBlue);
+                incomingLight.SetState(LightStates.Blinking);
+                break;
+            case RadioState.Outgoing:
+                incomingLight.SetColor(Color.green);
+                incomingLight.SetState(LightStates.On); 
+                break;
+            case RadioState.Incoming:  
+                incomingLight.SetColor(Color.red);
+                incomingLight.SetState(LightStates.On);
+                break;
+             default:
+                incomingLight.SetState(LightStates.Off);
+                break;
+
+        }
+
 
         powerBar.SetTargetScaleYFromRatio(RadioManager.Instance.PowerRatio);
         if (RadioManager.Instance.CanUseRadio) powerLight.SetState(LightStates.On);
@@ -98,7 +123,6 @@ public class Radio : MonoBehaviour
     {
         dialogueQueue.Enqueue(dialogue);
     }
-
     public void ForceDialogue(RadioDialogue dialogue)
     {
         Queue<RadioDialogue> newQueue = new Queue<RadioDialogue>();
@@ -124,7 +148,7 @@ public class Radio : MonoBehaviour
 
         ClearCaptions();
 
-        RadioManager.Instance.OnRadioDialogueEnd();
+        RadioManager.Instance.OnGoToNextRadioDialogue();
 
     }
 
@@ -165,7 +189,7 @@ public class Radio : MonoBehaviour
 
         yield return new WaitForSeconds(timeBetweenDialogue);
 
-        RadioManager.Instance.OnRadioDialogueEnd();
+        RadioManager.Instance.OnGoToNextRadioDialogue();
         dialogueRoutine = null;
     }
 

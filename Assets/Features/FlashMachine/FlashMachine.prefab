@@ -765,6 +765,8 @@ MonoBehaviour:
   chargedLight: {fileID: 6260186237402643995}
   powerBar: {fileID: 3637510370673309747}
   powerLight: {fileID: 5084184460228856232}
+  flashNoPower: {fileID: 11400000, guid: 3630fd632fe76bd47a4b3666a746106e, type: 2}
+  flashNoCharge: {fileID: 11400000, guid: efd56ec74c1bb2641905fb57ca015ea6, type: 2}
 --- !u!1 &5129681432545172324
 GameObject:
   m_ObjectHideFlags: 0

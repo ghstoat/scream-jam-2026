@@ -11,6 +11,9 @@ public class InteractableManager : MonoBehaviour
 
     private Interactable hoveredInteractable;
     private Interactable draggedInteractable;
+
+    private bool locked = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -26,9 +29,17 @@ public class InteractableManager : MonoBehaviour
         targetCamera = Camera.main;
     }
 
+    public void Lock(bool locked)
+    {
+        this.locked = locked;
+    }
+
     private void Update()
     {
         if (PauseManager.Instance.paused) return;
+        if (NoteManager.Instance.open) return;
+        if (TutorialManager.Instance.ShowingTutorial) return;
+        if (locked) return;
 
         if (draggedInteractable != null && (!IsOnHoverLayer(draggedInteractable) || IsCursorTooFar(draggedInteractable)))
         {
@@ -50,9 +61,9 @@ public class InteractableManager : MonoBehaviour
 
         foreach (RaycastHit hit in hits)
         {
-            Interactable candidate = hit.collider.GetComponentInParent<Interactable>();
+            Interactable candidate = hit.collider.GetComponent<Interactable>();
 
-            if (candidate != null && IsOpaquePixel(hit))
+            if (candidate != null && IsOpaquePixel(hit) && !candidate.locked)
             {
                 nextInteractable = candidate;
                 break;
@@ -101,7 +112,8 @@ public class InteractableManager : MonoBehaviour
 
         try
         {
-            return texture2D.GetPixelBilinear(hit.textureCoord.x, hit.textureCoord.y).a > 0f;
+            Debug.Log(texture2D.GetPixelBilinear(hit.textureCoord.x, hit.textureCoord.y).a);
+            return texture2D.GetPixelBilinear(hit.textureCoord.x, hit.textureCoord.y).a > 0.5f;
         }
         catch (UnityException)
         {

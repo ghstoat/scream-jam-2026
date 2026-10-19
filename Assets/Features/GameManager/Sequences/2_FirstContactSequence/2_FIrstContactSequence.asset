@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6544dd6ac388b2443a20b2a22a20c8c5, type: 3}
+  m_Name: 2_FIrstContactSequence
+  m_EditorClassIdentifier: Assembly-CSharp::FirstContactSequence
+  delay: 0
+  ready: 1
+  finished: 0
+  music: {fileID: 0}
+  nowWhat: {fileID: 11400000, guid: 27fb5df0267ea514f86c16ee8ae1cbde, type: 2}
+  radioJump: {fileID: 11400000, guid: 03dcdc518c5bb6848b7165010bed5695, type: 2}
+  firstContact: {fileID: 11400000, guid: 4f6cbacab6b07c4478b82faf38030018, type: 2}
+  stayAlive: {fileID: 11400000, guid: 5ba84dcb58902e84f9215d3368b96d95, type: 2}

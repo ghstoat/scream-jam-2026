@@ -397,6 +397,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PauseManager
   pauseScreen: {fileID: 3026263654662217760}
   controlTypeButton: {fileID: 1044842629086982753}
+  sfxMixer: {fileID: 24100000, guid: fb44ef7a9c17e554f923bcb051e6e999, type: 2}
+  musicMixer: {fileID: 0}
 --- !u!1 &2692290061472754045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1440,7 +1442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.6509804}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8352941}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

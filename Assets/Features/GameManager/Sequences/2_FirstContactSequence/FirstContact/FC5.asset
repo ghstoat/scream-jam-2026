@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d201ef38c6229cd4197b4413f9ca5e5c, type: 3}
+  m_Name: FC5
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDialogue
+  priority: 1
+  lines:
+  - text: Y-yes.
+    voiceline: {fileID: 8300000, guid: 2e46e381bc5fa0743b9b67e32a30fed5, type: 3}
+  - text: 'The generator is intact. '
+    voiceline: {fileID: 8300000, guid: 54360c82a8db0044988fdaca6c375e7f, type: 3}
+  - text: "Most of the systems are down or broken or\u2014"
+    voiceline: {fileID: 8300000, guid: fc57ac56b6e173d45ba86bf3cc4b92bb, type: 3}
+  - text: "<i>*deep breath*</i> \u2026Right. Stay calm."
+    voiceline: {fileID: 8300000, guid: 8ea0d87cb0ff70d4a800434764010daf, type: 3}
+  - text: 'Um... Life support systems are stable. '
+    voiceline: {fileID: 8300000, guid: c4a21b183a16e9b418779519774e164d, type: 3}

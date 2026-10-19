@@ -10,6 +10,9 @@ public class FlashMachine : MonoBehaviour
     [SerializeField] FillBar powerBar;
     [SerializeField] LightBulb powerLight;
 
+    [SerializeField] PlayerDialogue flashNoPower;
+    [SerializeField] PlayerDialogue flashNoCharge;
+
     private void Update()
     {
         UpdateIndicators();
@@ -33,11 +36,16 @@ public class FlashMachine : MonoBehaviour
 
     public void Pump()
     {
+        if (FlashManager.Instance.PowerEmpty) PlayerDialogueManager.Instance.ForceDialogue(flashNoPower);
+
+
         FlashManager.Instance.Pump();
     }
 
     public void Flash()
     {
+        if (!FlashManager.Instance.Charged) PlayerDialogueManager.Instance.ForceDialogue(flashNoCharge);
+
         FlashManager.Instance.UseFlash();
     }
 }

@@ -13,9 +13,40 @@ public class Vent : MonoBehaviour
     [SerializeField] FillBar powerBar;
     [SerializeField] LightBulb powerLight;
 
+    [SerializeField] AudioSource ambianceSource;
+
+    [SerializeField] AudioClip openVentClip;
+    [SerializeField] AudioClip closedVentClip;
+
+    [SerializeField] PlayerDialogue ventNoPower;
+
+    private bool closedLastFrame;
+
+    private void Start()
+    {
+        closedLastFrame = !VentManager.Instance.Closed;
+    }
+
     private void Update()
     {
         UpdateIndicators();
+        UpdateAudio();
+    }
+
+    private void UpdateAudio()
+    {
+        bool closed = VentManager.Instance.Closed;
+        if (closedLastFrame == closed) return;
+
+        ambianceSource.Stop();
+
+        if (closed) ambianceSource.clip = closedVentClip;
+        else ambianceSource.clip = openVentClip;
+
+        ambianceSource.Play();
+
+
+        closedLastFrame = closed;
     }
 
     private void UpdateIndicators()
@@ -52,11 +83,15 @@ public class Vent : MonoBehaviour
 
     public void TryToOpen()
     {
+        if (VentManager.Instance.PowerEmpty) PlayerDialogueManager.Instance.ForceDialogue(ventNoPower);
+
         VentManager.Instance.TryToOpen();
     }
 
     public void TryToClose()
     {
+        if (VentManager.Instance.PowerEmpty) PlayerDialogueManager.Instance.ForceDialogue(ventNoPower);
+
         VentManager.Instance.TryToClose();
 
     }

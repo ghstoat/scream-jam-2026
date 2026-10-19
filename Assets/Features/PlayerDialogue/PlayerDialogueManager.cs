@@ -18,9 +18,11 @@ public class DialogueLine
 
 public class PlayerDialogueManager : MonoBehaviour
 {
-    private const float estimateWPM = 40;
+    private const float estimateWPM = 200;
 
-    public Queue<PlayerDialogue> dialogueQueue = new Queue<PlayerDialogue>();
+    private Queue<PlayerDialogue> dialogueQueue = new Queue<PlayerDialogue>();
+
+    private PlayerDialogue currentDialogue;
 
 
     [Header("References")]
@@ -29,6 +31,8 @@ public class PlayerDialogueManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI captionText;
 
     [Header("Setting")]
+    public bool ignoreNonPriority;
+
     [SerializeField] float timeBetweenLines;
     [SerializeField] float timeBetweenDialogue;
 
@@ -38,6 +42,7 @@ public class PlayerDialogueManager : MonoBehaviour
 
     public UnityEvent OnDialogueStart;
     public UnityEvent OnDialogueEnd;
+    public UnityEvent OnPriorityDialogueEnd;
 
     public static PlayerDialogueManager Instance { get; private set; }
     private void Awake()
@@ -54,6 +59,7 @@ public class PlayerDialogueManager : MonoBehaviour
 
     private void Start()
     {
+        currentDialogue = null;
         dialogueQueue.Clear();
         ClearCaptions();
     }
@@ -65,11 +71,33 @@ public class PlayerDialogueManager : MonoBehaviour
 
     public void QueueDialogue(PlayerDialogue dialogue)
     {
+        if (ignoreNonPriority && !dialogue.priority) return;
+
+        if (currentDialogue != null)
+        {
+            if (currentDialogue.priority) return;
+            if (currentDialogue == dialogue) return;
+        }
+
+        foreach (PlayerDialogue p in dialogueQueue)
+        {
+            if (p == dialogue) return;
+        }
+
         dialogueQueue.Enqueue(dialogue);
     }
 
     public void ForceDialogue(PlayerDialogue dialogue)
     {
+        if (ignoreNonPriority && !dialogue.priority) return;
+
+        if (currentDialogue != null)
+        {
+            if (currentDialogue.priority) return;
+            if (currentDialogue == dialogue) return;
+        }
+
+
         Queue<PlayerDialogue> newQueue = new Queue<PlayerDialogue>();   
         newQueue.Enqueue(dialogue);
 
@@ -85,6 +113,7 @@ public class PlayerDialogueManager : MonoBehaviour
 
     public void InterruptDialogue()
     {
+
         if (dialogueSource.isPlaying) dialogueSource.Stop();
         dialogueSource.clip = null;
 
@@ -93,14 +122,26 @@ public class PlayerDialogueManager : MonoBehaviour
 
         ClearCaptions();
 
-        OnDialogueEnd?.Invoke();
+        bool ended = false;
+        if (currentDialogue != null) ended = true;
 
+        bool prio = false;
+        if (currentDialogue != null) prio = currentDialogue.priority;
+
+        currentDialogue = null;
+
+        if (ended) OnDialogueEnd?.Invoke();
+        if (prio) OnPriorityDialogueEnd?.Invoke();
     }
 
 
     private IEnumerator DialogueRoutine()
     {
-        DialogueLine[] lines = dialogueQueue.Dequeue().GetLines();
+
+        captionText.maxVisibleCharacters = 0;
+
+        currentDialogue = dialogueQueue.Dequeue();
+        DialogueLine[] lines = currentDialogue.GetLines();
 
         OnDialogueStart?.Invoke();
 
@@ -119,7 +160,22 @@ public class PlayerDialogueManager : MonoBehaviour
                 lineDuration += EstimateDialogueLength(line.text);
             }
 
-            yield return StartCoroutine(TypeCaptions(line.text));
+            captionText.gameObject.SetActive(true);
+            captionText.text = line.text;
+            captionText.maxVisibleCharacters = 0;
+
+            captionText.ForceMeshUpdate();
+
+            int characterCount = captionText.textInfo.characterCount;
+
+            for (int i = 1; i <= characterCount; i++)
+            {
+
+                captionText.maxVisibleCharacters = i;
+
+                yield return new WaitForSeconds(characterDelay);
+            }
+
 
             float typingDuration = captionText.textInfo.characterCount * characterDelay;
 
@@ -130,38 +186,28 @@ public class PlayerDialogueManager : MonoBehaviour
                 yield return new WaitForSeconds(remainingDuration);
             }
 
+
             ClearCaptions();
        
         }
 
         yield return new WaitForSeconds(timeBetweenDialogue);
 
+        bool prio = currentDialogue.priority;
+
+        currentDialogue = null;
         OnDialogueEnd?.Invoke();
+
+        if (prio) OnPriorityDialogueEnd?.Invoke();
+
         dialogueRoutine = null;
     }
 
-    private IEnumerator TypeCaptions(string text)
-    {
-        captionText.gameObject.SetActive(true);
-        captionText.text = text;
-        captionText.maxVisibleCharacters = 0;
-
-        captionText.ForceMeshUpdate();
-
-        int characterCount = captionText.textInfo.characterCount;
-
-        for (int i = 1; i <= characterCount; i++)
-        {
-            captionText.maxVisibleCharacters = i;
-
-            yield return new WaitForSeconds(characterDelay);
-        }
-    }
 
     private void ClearCaptions()
     {
-        captionText.maxVisibleCharacters = int.MaxValue;
         captionText.text = "";
+        captionText.maxVisibleCharacters = 0;
         captionText.gameObject.SetActive(false);
     }
 

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d201ef38c6229cd4197b4413f9ca5e5c, type: 3}
+  m_Name: FC1
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDialogue
+  priority: 1
+  lines:
+  - text: Command!
+    voiceline: {fileID: 8300000, guid: 900eed50970ba6141a72496d1c6f2362, type: 3}
+  - text: Command, do you read me?!
+    voiceline: {fileID: 8300000, guid: 95fdc6e34d330224c9256abcedab14f5, type: 3}

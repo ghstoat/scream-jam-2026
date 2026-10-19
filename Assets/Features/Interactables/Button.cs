@@ -7,7 +7,10 @@ public class Button : Interactable
 
     public override void OnDragStart()
     {
+        base.OnDragStart();
         pressed?.Invoke();
+
+        OnDragExit();
     }
 
 

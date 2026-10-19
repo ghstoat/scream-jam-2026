@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 
 public class PauseManager : MonoBehaviour
@@ -12,6 +13,8 @@ public class PauseManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI controlTypeButton;
 
+    [SerializeField] AudioMixerGroup sfxMixer;
+    [SerializeField] AudioMixerGroup musicMixer;
 
     public static PauseManager Instance { get; private set; }
     private void Awake()
@@ -34,7 +37,7 @@ public class PauseManager : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current[pauseControl].wasPressedThisFrame)
+        if (Keyboard.current[pauseControl].wasPressedThisFrame && !TutorialManager.Instance.ShowingTutorial)
         {
             TogglePause();
             return;
