@@ -10,6 +10,13 @@ public class VentManager : PoweredSystem
 
     [SerializeField] float openingSpeedPerPower;
 
+    [SerializeField] float maxToxicity;
+    [SerializeField] float toxicityPerSecond;
+    public float toxicity { get; private set; }
+    public bool ToxicityFull => toxicity == maxToxicity;
+    public float ToxicityRatio => toxicity / maxToxicity;
+    
+
     public bool opening { get; private set; } = false;
 
     public static VentManager Instance { get; private set; }
@@ -26,6 +33,7 @@ public class VentManager : PoweredSystem
 
         closingProgress = 1f;
         opening = false;
+        toxicity = 0f;
     }
 
     private void Update()
@@ -40,6 +48,17 @@ public class VentManager : PoweredSystem
             closingProgress -= openingSpeedPerPower * currentPower * Time.deltaTime;
             closingProgress = Mathf.Clamp01(closingProgress);
         }
+
+        if (Closed)
+        {
+            toxicity += toxicityPerSecond * Time.deltaTime;
+        }
+        else
+        {
+            toxicity -= toxicityPerSecond * Time.deltaTime;
+        }
+
+        toxicity = Mathf.Clamp(toxicity, 0, maxToxicity);
     }
 
     public void TryToOpen()
