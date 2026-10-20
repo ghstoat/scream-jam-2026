@@ -13,9 +13,6 @@ public class PauseManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI controlTypeButton;
 
-    [SerializeField] AudioMixerGroup sfxMixer;
-    [SerializeField] AudioMixerGroup musicMixer;
-
     public static PauseManager Instance { get; private set; }
     private void Awake()
     {

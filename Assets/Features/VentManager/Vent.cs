@@ -20,6 +20,9 @@ public class Vent : MonoBehaviour
 
     [SerializeField] PlayerDialogue ventNoPower;
 
+    [SerializeField] Interactable lever;
+    public Interactable Lever => lever;
+
     private bool closedLastFrame;
 
     private void Start()

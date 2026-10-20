@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviour
         if (Cursor.lockState != lockMode) Cursor.lockState = lockMode;
     }
 
-    public void LookAtTransform(Transform target, float duration = 0f, float pause = 0f)
+    public void LookAtTransform(Transform target, float duration = 0f, float pause = 0f, bool zoom = false)
     {
         if (target == null) return;
         Lock(true);
@@ -284,7 +284,7 @@ public class PlayerController : MonoBehaviour
 
         StopCoroutineIfRotating();
         rotationCoroutine = StartCoroutine(
-            RotateToTarget(targetHorizontal, targetVertical, duration, pause));
+            RotateToTarget(targetHorizontal, targetVertical, duration, pause, zoom));
     }
 
     private Coroutine rotationCoroutine;
@@ -302,7 +302,8 @@ public class PlayerController : MonoBehaviour
         float targetHorizontal,
         float targetVertical,
         float duration,
-        float pause)
+        float pause,
+        bool zoom)
     {
         float startHorizontal = horizontalRotation;
         float startVertical = verticalRotation;
@@ -326,7 +327,9 @@ public class PlayerController : MonoBehaviour
             camParent.transform.localRotation = Quaternion.Euler(
                 verticalRotation, horizontalRotation, 0f);
 
-            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, zoomFOV, zoomSpeed * Time.deltaTime);
+            float fov = zoom ? zoomFOV : normalFOV;
+
+            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, fov, zoomSpeed * Time.deltaTime);
 
             yield return null;
         }

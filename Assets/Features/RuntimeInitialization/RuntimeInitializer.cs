@@ -1,11 +1,13 @@
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Scripting.LifecycleManagement;
 
-public class RuntimeInitializer : MonoBehaviour
+public partial class RuntimeInitializer : MonoBehaviour
 {
     [SerializeField] private GameObject[] persistentSystemsPrefabs;
 
+    [AutoStaticsCleanup]
     private static bool initialized = false;
 
     private void Awake()

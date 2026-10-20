@@ -33,8 +33,7 @@ public class PowerManager : MonoBehaviour
     private void Start()
     {
         powerReservoir.UpdatePowerReservoirMaxPower();
-
-        //DrainAllSystems();
+        DrainAllSystems();
     }
 
     public void FillAllSystems()
@@ -76,6 +75,26 @@ public class PowerManager : MonoBehaviour
         this.systemB = systemB;
     }
 
+    public bool CanMovePowerFromAToB(float delta)
+    {
+        if (systemA == null || systemB == null)
+        {
+            return false;
+        }
+        PoweredSystem A = systemA;
+        PoweredSystem B = systemB;
+
+        if (delta < 0)
+        {
+            A = systemB;
+            B = systemA;
+        }
+
+        if (A.PowerEmpty || B.PowerFull) return false;
+
+        return true;
+    }
+
     public void MovePowerFromAToB(int power)
     {
         if (power == 0) return;
@@ -105,6 +124,8 @@ public class PowerManager : MonoBehaviour
 
         A.WithdrawPower(powerToMove);
         B.AllocatePower(powerToMove);
+
+        return;
     }
 
     public bool IsSystemsABAssigned()

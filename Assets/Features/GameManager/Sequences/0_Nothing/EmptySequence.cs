@@ -16,7 +16,6 @@ public class EmptySequence : Sequence
 
     private IEnumerator Routine()
     {
-        PowerManager.Instance.DrainAllSystems();
         PlayerDialogueManager.Instance.ignoreNonPriority = false;
 
         CockpitManager.Instance.SetState(CockpitState.Default);

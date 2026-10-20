@@ -143,14 +143,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TemperatureManager
   maxPower: 100
-  minLivableTemp: 10
+  minLivableTemp: 5
   maxLivableTemp: 30
   minExtTemp: -40
   maxExtTemp: 0
   maxHeaterTemp: 50
   tempChangeSpeed: 4
-  minTimeBetweenSolarFlares: 180
-  maxTimeBetweenSolarFlares: 300
+  maxLightTemp: 20000
+  minLightTemp: 3000
+  minTimeBetweenSolarFlares: 30
+  maxTimeBetweenSolarFlares: 50
 --- !u!1 &4074253271724983418
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,7 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OxygenManager
   maxPower: 100
-  maxOxygen: 150
+  maxOxygen: 120
   powerRequired: 60
   oxygenPerPower: 0.2
 --- !u!1 &7777189420500631328

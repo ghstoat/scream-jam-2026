@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum CockpitState
@@ -11,6 +12,10 @@ public enum CockpitState
 public class CockpitManager : MonoBehaviour
 {
     public CockpitState state {  get; private set; }
+
+    [SerializeField] Transform cockpitTransform;
+    private Coroutine shakeCoroutine;
+    private Vector3 cockpitOriginalPosition;
 
     [SerializeField] Animator lightAnimator;
 
@@ -25,6 +30,7 @@ public class CockpitManager : MonoBehaviour
     [SerializeField] float selfDestructDuration = 60;
 
     [Header("Systems In Cockpit")]
+    [SerializeField] Light mainLight;
     [SerializeField] OxygenMeter oxygenMeter;
     [SerializeField] Heater heater;
     [SerializeField] Radio radio;
@@ -33,6 +39,7 @@ public class CockpitManager : MonoBehaviour
     [SerializeField] PowerSwitcher powerSwitcher;
     [SerializeField] Button ejectButton;
 
+    public Light MainLight => mainLight;
     public OxygenMeter OxygenMeter => oxygenMeter;
     public Heater Heater => heater;
     public Radio Radio => radio;
@@ -158,10 +165,54 @@ public class CockpitManager : MonoBehaviour
         }
     }
 
+    public void ShakeCockpit(float shakeMagnitude, float shakeDuration)
+    {
+        if (shakeCoroutine != null) StopCoroutine(shakeCoroutine);
+
+        shakeCoroutine = StartCoroutine(ShakeRoutine(shakeMagnitude, shakeDuration));
+    }
+
+    private IEnumerator ShakeRoutine(float shakeMagnitude, float shakeDuration)
+    {
+        cockpitOriginalPosition = cockpitTransform.localPosition;
+
+        float elapsed = 0f;
+
+        while (elapsed < shakeDuration)
+        {
+            Vector3 randomOffset = Random.insideUnitSphere * shakeMagnitude;
+            float fade = (shakeDuration - elapsed) /shakeDuration;
+
+            cockpitTransform.localPosition = cockpitOriginalPosition + randomOffset * fade;
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        cockpitTransform.localPosition = cockpitOriginalPosition;
+        shakeCoroutine = null;
+    }
+
+
+
+    #region selfdestruct
+    public void TryToEject()
+    {
+        ejectButton.SetInteractable(false);
+
+        ShakeCockpit(.8f, 2f);
+    }
+
     public void StartSelfDestructRoutine() 
     {
         if (selfDestructRoutine != null) StopCoroutine(selfDestructRoutine);
         selfDestructRoutine = StartCoroutine(SelfDestructRoutine());
+    }
+
+    private void StopSelfDestructRoutine()
+    {
+        if (selfDestructRoutine != null) StopCoroutine(selfDestructRoutine);
+        selfDestructRoutine = null;
     }
 
     private IEnumerator SelfDestructRoutine()
@@ -175,6 +226,12 @@ public class CockpitManager : MonoBehaviour
 
         while (timer > 0)
         {
+            if (state != CockpitState.Alarm)
+            {
+                StopSelfDestructRoutine();
+                yield break;
+            }
+
             timer -= Time.deltaTime;
 
             switch (stage)
@@ -209,11 +266,15 @@ public class CockpitManager : MonoBehaviour
                     break;
 
             }
+
+
+
+
             yield return null;
 
         }
 
         HealthManager.Instance.Die(Death.SelfDestruct);
     }
-
+    #endregion
 }

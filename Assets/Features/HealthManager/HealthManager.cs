@@ -22,8 +22,7 @@ public class HealthManager : MonoBehaviour
     [SerializeField] float maxTimeBadTemp = 30f;
     [SerializeField] float timeBeforeTempDialogue = 15f;
     private float tempTimer;
-    [SerializeField] CanvasGroup overheatingCanvasGroup;
-    [SerializeField] CanvasGroup freezingCanvasGroup;
+
 
     private bool tempDialoguePlayed = false;
     [SerializeField] PlayerDialogue overheating;
@@ -122,35 +121,13 @@ public class HealthManager : MonoBehaviour
 
                 PlayerDialogueManager.Instance.QueueDialogue(dialogue);
             }
-
-            if (freezing)
-            {
-                freezingCanvasGroup.alpha = tempTimer / maxTimeBadTemp;
-                overheatingCanvasGroup.alpha = 0;
-            }
-            if (overheating)
-            {
-                overheatingCanvasGroup.alpha = tempTimer / maxTimeBadTemp;
-                freezingCanvasGroup.alpha = 0;
-            }
+            
         }
         else if (tempTimer > 0)
         {
-            tempTimer -= Time.deltaTime * 20;
+          
             if (tempDialoguePlayed == true) tempDialoguePlayed = false;
-
-            if (tempTimer <= 0)
-            {
-                overheatingCanvasGroup.alpha = 0;
-                freezingCanvasGroup.alpha = 0;
-            }
-            else
-            {
-                float alpha = tempTimer / maxTimeBadTemp;
-
-                if (overheatingCanvasGroup.alpha > alpha) overheatingCanvasGroup.alpha = alpha;
-                if (freezingCanvasGroup.alpha > alpha) freezingCanvasGroup.alpha = alpha;
-            }
+            tempTimer = 0;
         }
     }
 }

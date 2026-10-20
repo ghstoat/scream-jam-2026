@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class FlashMachine : MonoBehaviour
 {
+    [SerializeField] Interactable pumpLever;
+    public Interactable PumpLever => pumpLever;
 
     [SerializeField] FillBar chargeBar;
 

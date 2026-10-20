@@ -29,7 +29,6 @@ public class OpeningSequence : Sequence
 
     private IEnumerator Routine()
     {
-        PowerManager.Instance.FillAllSystems();
 
         SubscribeToEvents();
 
@@ -41,13 +40,19 @@ public class OpeningSequence : Sequence
         InteractableManager.Instance.Lock(true);
         PlayerController.Instance.Lock(true);
         CockpitManager.Instance.PowerSwitcher.PowerResetLever.Lock(true);
+        CockpitManager.Instance.FlashMachine.PumpLever.Lock(true);
+        CockpitManager.Instance.Vent.Lever.Lock(true);
+
         yield return new WaitForSeconds(.1f);
+        PowerManager.Instance.FillAllSystems();
 
         MusicManager.Instance.PlayMusic(openingMusic, .5f, 0, 0, true, true); 
 
         CockpitManager.Instance.SetState(CockpitState.Alarm);
 
-        yield return new WaitForSeconds(3);
+        CockpitManager.Instance.ShakeCockpit(1f, 4f);
+
+        yield return new WaitForSeconds(5);
 
         PlayerDialogueManager.Instance.ForceDialogue(eyesOpen);
 
@@ -116,7 +121,7 @@ public class OpeningSequence : Sequence
             yield return null;
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
 
 
         PlayerDialogueManager.Instance.ForceDialogue(failedEject);
@@ -125,11 +130,17 @@ public class OpeningSequence : Sequence
         while (!dialogueEndedThisFrame) yield return null;
 
         MissionManager.Instance.SetMission("Purge power from all systems");
-
         yield return new WaitForSeconds(3f);
         TutorialManager.Instance.OpenTutorial(Tutorial.DrainPower);
+        yield return new WaitForSeconds(.1f);
+
+
+        PlayerController.Instance.LookAtTransform(CockpitManager.Instance.PowerSwitcher.PowerResetLever.transform, 1f, 1f, false);
+
 
         CockpitManager.Instance.EjectButton.Lock(true);
+        CockpitManager.Instance.Vent.Lever.Lock(false);
+
         CockpitManager.Instance.PowerSwitcher.PowerResetLever.Lock(false);
 
 
@@ -137,6 +148,8 @@ public class OpeningSequence : Sequence
         {
             yield return null;
         }
+
+        CockpitManager.Instance.FlashMachine.PumpLever.Lock(false);
 
 
         MusicManager.Instance.StopMusic(.1f);

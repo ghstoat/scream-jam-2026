@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Interactable : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class Interactable : MonoBehaviour
     public bool isInteractable { private set; get; }
     private const string INTERACTABLE = "Interactable";
     private const string BACKGROUND = "Background";
+
+    public AudioSource OnClick;
 
     public bool locked { private set; get; } = false;
 
@@ -48,6 +51,11 @@ public class Interactable : MonoBehaviour
 
     public virtual void OnDragStart()
     {
+        if (OnClick != null)
+        {
+            if (OnClick.isPlaying) OnClick.Stop();
+            OnClick.Play();
+        }
         isDragging = true;
     }
 

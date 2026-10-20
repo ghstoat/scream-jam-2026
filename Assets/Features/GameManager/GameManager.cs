@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public Sequence[] sequenceArray;
-    public Queue<Sequence> sequenceQueue = new Queue<Sequence> ();
+    private Queue<Sequence> sequenceQueue = new Queue<Sequence> ();
     public static GameManager Instance { get; private set; }
     private void Awake()
     {

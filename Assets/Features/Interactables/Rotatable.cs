@@ -18,6 +18,7 @@ public class Rotatable : Interactable
 
     [SerializeField]  protected Gear[] gears;
 
+
     protected Camera targetCamera;
     protected Plane dragPlane;
     protected Vector2 previousDirection;

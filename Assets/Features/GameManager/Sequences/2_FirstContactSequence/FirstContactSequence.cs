@@ -34,7 +34,7 @@ public class FirstContactSequence : Sequence
         HealthManager.Instance.LockOxygen(true);
         HealthManager.Instance.LockTemp(true);
 
-        PlayerDialogueManager.Instance.ignoreNonPriority = false; //change to true
+        PlayerDialogueManager.Instance.ignoreNonPriority = true;
 
         CockpitManager.Instance.SetState(CockpitState.Default);
 
@@ -52,7 +52,7 @@ public class FirstContactSequence : Sequence
         yield return new WaitForSeconds(20);
 
         RadioManager.Instance.ReceiveMessage(firstContact);
-        PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Radio.IncomingLight.transform, 0.2f, 1.5f);
+        PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Radio.IncomingLight.transform, 0.2f, 1.5f, true);
 
         yield return new WaitForSeconds(0.5f);
 
@@ -62,12 +62,33 @@ public class FirstContactSequence : Sequence
         while (!dialogueEnded) yield return null;
 
         TutorialManager.Instance.OpenTutorial(Tutorial.PowerSwitcher);
+
+        yield return new WaitForSeconds(0.1f);
+
+        PlayerController.Instance.LookAtTransform(CockpitManager.Instance.PowerSwitcher.transform, 1f, 1f, false);
+
+        yield return new WaitForSeconds(1.5f);
+
+        TutorialManager.Instance.OpenTutorial(Tutorial.Nodes);
+
         yield return new WaitForSeconds(0.1f);
 
         MissionManager.Instance.SetMission("Respond to Command");
 
         radioDialogueStarted = false;
-        while (!radioDialogueStarted) yield return null;
+        bool reservoirEmptied = false;
+
+        while (!radioDialogueStarted)
+        {
+            if (PowerReservoir.Instance.PowerEmpty && !reservoirEmptied)
+            {
+                reservoirEmptied = true;
+                TutorialManager.Instance.OpenTutorial(Tutorial.EmptyReservoir);
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            yield return null;
+        }
 
         MissionManager.Instance.ClearMission();
 
@@ -79,7 +100,6 @@ public class FirstContactSequence : Sequence
         dialogueEnded = false;
         while (!dialogueEnded) yield return null;
 
-        MissionManager.Instance.SetMission("Survive till dawn");
 
         UnsubscribeToEvents();
         finished = true;

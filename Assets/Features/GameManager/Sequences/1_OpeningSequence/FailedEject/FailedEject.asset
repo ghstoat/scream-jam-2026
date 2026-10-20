@@ -16,7 +16,9 @@ MonoBehaviour:
   lines:
   - text: What?!
     voiceline: {fileID: 0}
-  - text: Don't tell me it's... broken?
+  - text: Don't tell me the eject button is...
+    voiceline: {fileID: 0}
+  - text: Broken?
     voiceline: {fileID: 0}
   - text: I'm really done for now!
     voiceline: {fileID: 0}

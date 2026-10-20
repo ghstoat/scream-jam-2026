@@ -37,6 +37,8 @@ public class PowerSwitcher : MonoBehaviour
     [Header("Valve")]
     [SerializeField] float valveStrength;
     [SerializeField] Rotatable valve;
+    [SerializeField] AudioSource valveSpin;
+    [SerializeField] AudioSource gearLoop;
 
     [Header("Gauges")]
     [SerializeField] Gauge reservoirGauge;
@@ -69,9 +71,10 @@ public class PowerSwitcher : MonoBehaviour
 
     public NodeState lastState = NodeState.None;
 
-
     private void Start()
     {
+        CreateNodes();
+
         DeclareDict();
 
         foreach (NodeData node in nodes)
@@ -81,6 +84,10 @@ public class PowerSwitcher : MonoBehaviour
 
         defJackAPos = jackA.transform.position;
         defJackBPos = jackB.transform.position;
+
+        DisconnectJackA();
+        DisconnectJackB();
+
     }
 
     private void Update()
@@ -134,15 +141,39 @@ public class PowerSwitcher : MonoBehaviour
     private void UpdateValveRotation()
     {
 
-        if (valve.RotationDelta== 0) return;
+        if (valve.RotationDelta== 0)
+        {
+            if (valveSpin.volume != 0) valveSpin.volume = 0;
+            if (gearLoop.volume != 0) gearLoop.volume = 0;
+            return;
+
+        }
+        
+        float ratio = Mathf.Abs(valve.RotationDelta) / 15;
+
+        float vol = ratio * 1;
+        valveSpin.volume = vol;
+        
+            
 
         if (!PowerManager.Instance.IsSystemsABAssigned())
         {
             PlayerDialogueManager.Instance.ForceDialogue(jacksNotAssigned);
+            if (gearLoop.volume != 0) gearLoop.volume = 0;
+
             return;
         }
-        
 
+
+
+        if (PowerManager.Instance.CanMovePowerFromAToB(-valve.RotationDelta) )
+        {
+            gearLoop.volume = vol;
+        }
+        else
+        {
+            if (gearLoop.volume != 0) gearLoop.volume = 0;
+        }
 
         PowerManager.Instance.MovePowerFromAToB(-(int)(valve.RotationDelta * valveStrength));
     }

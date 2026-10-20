@@ -7,7 +7,12 @@ public enum Tutorial
     Look,
     Interact,
     DrainPower,
-    PowerSwitcher
+    PowerSwitcher,
+    Nodes,
+    Oxygen,
+    Heater,
+    EmptyReservoir,
+    Vent
 }
 
 

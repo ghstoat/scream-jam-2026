@@ -21,6 +21,10 @@ public class TemperatureManager : PoweredSystem
 
     [SerializeField] float tempChangeSpeed;
 
+    [SerializeField] float maxLightTemp = 20000;
+    [SerializeField] float minLightTemp = 3000;
+
+
     [SerializeField] float minTimeBetweenSolarFlares;
     [SerializeField] float maxTimeBetweenSolarFlares;
 
@@ -60,6 +64,10 @@ public class TemperatureManager : PoweredSystem
         {
             intTemp = Mathf.MoveTowards(intTemp, targetTemp, tempChangeSpeed * Time.deltaTime);
         }
+
+        float tempRatio = 1 - Mathf.InverseLerp(minLivableTemp, maxLivableTemp, intTemp);
+
+        CockpitManager.Instance.MainLight.colorTemperature = Mathf.Lerp(minLightTemp, maxLightTemp, tempRatio);
     }
 
     private IEnumerator SolarFlareRoutine()
@@ -72,6 +80,11 @@ public class TemperatureManager : PoweredSystem
             while (timeToNextSolarFlare > 0)
             {
                 timeToNextSolarFlare -= Time.deltaTime;
+                if (timeToNextSolarFlare < 0)
+                {
+                    CockpitManager.Instance.ShakeCockpit(.1f, 2.5f);
+                }
+
                 yield return null;
             }
         }
