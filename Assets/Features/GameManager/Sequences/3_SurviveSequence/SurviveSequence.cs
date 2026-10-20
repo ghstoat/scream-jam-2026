@@ -33,7 +33,6 @@ public class SurviveSequence : Sequence
         SubscribeToEvents();
         HealthManager.Instance.LockOxygen(true);
         HealthManager.Instance.LockTemp(true);
-        HealthManager.Instance.LockToxicity(true);
 
         OxygenManager.Instance.ChangeOxygen(-OxygenManager.Instance.oxygen);
 
@@ -146,7 +145,7 @@ public class SurviveSequence : Sequence
 
         yield return new WaitForSeconds(0.1f);
 
-        HealthManager.Instance.LockToxicity(false); 
+        //HealthManager.Instance.LockTemp(false); //unlock vent toxicity
 
         while (!VentManager.Instance.Open)
         {

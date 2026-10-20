@@ -33,7 +33,6 @@ public class FirstContactSequence : Sequence
         SubscribeToEvents();
         HealthManager.Instance.LockOxygen(true);
         HealthManager.Instance.LockTemp(true);
-        HealthManager.Instance.LockToxicity(true);
 
         PlayerDialogueManager.Instance.ignoreNonPriority = true;
 
@@ -71,12 +70,6 @@ public class FirstContactSequence : Sequence
         yield return new WaitForSeconds(1.5f);
 
         TutorialManager.Instance.OpenTutorial(Tutorial.Nodes);
-
-        PlayerController.Instance.LookAtTransform(CockpitManager.Instance.PowerSwitcher.ReservoirNode.transform, 1f, 1f, false);
-
-        yield return new WaitForSeconds(1.5f);
-
-        TutorialManager.Instance.OpenTutorial(Tutorial.Reservoir);
 
         yield return new WaitForSeconds(0.1f);
 

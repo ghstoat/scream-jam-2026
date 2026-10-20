@@ -33,8 +33,7 @@ public class OpeningSequence : Sequence
         SubscribeToEvents();
 
         HealthManager.Instance.LockOxygen(true);
-        HealthManager.Instance.LockTemp(true); 
-        HealthManager.Instance.LockToxicity(true);
+        HealthManager.Instance.LockTemp(true);
 
         PlayerDialogueManager.Instance.ignoreNonPriority = true;
 

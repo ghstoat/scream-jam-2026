@@ -12,8 +12,7 @@ public enum Tutorial
     Oxygen,
     Heater,
     EmptyReservoir,
-    Vent,
-    Reservoir
+    Vent
 }
 
 
