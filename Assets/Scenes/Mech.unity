@@ -1996,6 +1996,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7176024374150626281, guid: f61a5c3bdefdbdb4a964f496860921cd, type: 3}
+      propertyPath: m_Volume
+      value: 0.832
+      objectReference: {fileID: 0}
     - target: {fileID: 7699576581224558963, guid: f61a5c3bdefdbdb4a964f496860921cd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5085,6 +5089,14 @@ PrefabInstance:
     - target: {fileID: 499613099583218587, guid: cacb4acf6d016b34baf95e88b8e9fd19, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808986479927388126, guid: cacb4acf6d016b34baf95e88b8e9fd19, type: 3}
+      propertyPath: MinDistance
+      value: 17.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808986479927388126, guid: cacb4acf6d016b34baf95e88b8e9fd19, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6593122554477756050, guid: cacb4acf6d016b34baf95e88b8e9fd19, type: 3}
       propertyPath: m_Name
