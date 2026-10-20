@@ -47,6 +47,7 @@ public class PowerSwitcher : MonoBehaviour
 
     [Header("Reservoir")]
     [SerializeField] SwitcherNode reservoirNode;
+    public SwitcherNode ReservoirNode => reservoirNode;
 
     [Header("Jack Assignment")]
     [SerializeField, Min(0.01f)] private float jackMoveDuration = 0.25f;

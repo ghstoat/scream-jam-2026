@@ -21,6 +21,14 @@ public class HealthManager : MonoBehaviour
     [SerializeField] CanvasGroup oxygenCanvasGroup;
     [SerializeField] PlayerDialogue lightheaded;
     private bool lockOxygen = false;
+    
+    [Header("Oxygen")]
+    [SerializeField] float maxTimeInToxic = 30f;
+    private float sickTimer;
+    [SerializeField] CanvasGroup sickCanvasGroup;
+    [SerializeField] PlayerDialogue sick;
+    private bool lockToxicity = false;
+
 
     [Header("Temperature")]
     [SerializeField] float maxTimeBadTemp = 30f;
@@ -125,7 +133,42 @@ public class HealthManager : MonoBehaviour
             else oxygenCanvasGroup.alpha = oxygenTimer / maxTimeWithoutOxygen;
         }
     }
+    public void LockToxicity(bool locked)
+    {
+        lockToxicity = locked;
+    }
 
+    public void HandleToxicity()
+    {
+        bool sickBool = false;
+
+        if (!lockToxicity) sickBool = VentManager.Instance.ToxicityFull;
+
+
+
+        if (sickBool)
+        {
+            if (sickTimer == 0) PlayerDialogueManager.Instance.QueueDialogue(sick);
+
+            sickTimer += Time.deltaTime;
+            if (sickTimer > maxTimeInToxic)
+            {
+                Die(Death.Toxicity);
+            }
+
+
+
+            sickCanvasGroup.alpha = sickTimer / maxTimeInToxic;
+        }
+        else if (sickTimer > 0)
+        {
+
+            sickTimer -= Time.deltaTime;
+
+            if (sickTimer <= 0) sickCanvasGroup.alpha = 0;
+            else sickCanvasGroup.alpha = sickTimer / maxTimeInToxic;
+        }
+    }
 
     public void LockTemp(bool locked)
     {
