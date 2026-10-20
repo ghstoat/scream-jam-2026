@@ -41,7 +41,7 @@ public class PowerSwitcher : MonoBehaviour
     [SerializeField] AudioSource gearLoop;
 
     [Header("Gauges")]
-    [SerializeField] Gauge reservoirGauge;
+    [SerializeField] FillBar reservoirFill;
     [SerializeField] Gauge nodeAGauge;
     [SerializeField] Gauge nodeBGauge;
 
@@ -59,6 +59,9 @@ public class PowerSwitcher : MonoBehaviour
 
     private Vector3 defJackAPos;
     private Vector3 defJackBPos;
+
+    private Quaternion defJackARot;
+    private Quaternion defJackBRot;
 
     private SwitcherNode pointA;
     private SwitcherNode pointB;
@@ -85,6 +88,10 @@ public class PowerSwitcher : MonoBehaviour
 
         defJackAPos = jackA.transform.position;
         defJackBPos = jackB.transform.position;
+
+        defJackARot = jackA.transform.rotation;
+        defJackBRot = jackB.transform.rotation;
+
 
         DisconnectJackA();
         DisconnectJackB();
@@ -191,7 +198,7 @@ public class PowerSwitcher : MonoBehaviour
 
     private void UpdateGauges()
     {
-        reservoirGauge.SetTargetAngleFromRatio(PowerReservoir.Instance.PowerRatio);
+        reservoirFill.SetTargetScaleYFromRatio(PowerReservoir.Instance.PowerRatio);
 
         PoweredSystem poweredSystemA = GetPoweredSystemFromNode(pointA);
         if (poweredSystemA == null) nodeAGauge.SetTargetAngleFromRatio(0);
@@ -374,6 +381,19 @@ public class PowerSwitcher : MonoBehaviour
         else ClearPointB();
 
         Vector3 startPosition = jack.position;
+        Quaternion startRotation = jack.rotation;
+
+        Quaternion targetRotation;
+
+        if (node != null)
+        {
+            targetRotation = node.transform.rotation;
+        }
+        else
+        {
+            targetRotation = isJackA ? defJackARot : defJackBRot;
+        }
+
         float elapsed = 0f;
 
         while (elapsed < jackMoveDuration)
@@ -385,11 +405,13 @@ public class PowerSwitcher : MonoBehaviour
             t = Mathf.SmoothStep(0f, 1f, t);
 
             jack.position = Vector3.Lerp(startPosition,targetPosition,t);
+            jack.rotation = Quaternion.Slerp(startRotation,targetRotation,t);
 
             yield return null;
         }
 
         jack.position = targetPosition;
+        jack.rotation = targetRotation;
 
         if (node != null)
         {

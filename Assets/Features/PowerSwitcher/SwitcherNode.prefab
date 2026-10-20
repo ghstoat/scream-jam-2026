@@ -642,11 +642,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwitcherNode
   objectRenderer: {fileID: 6516187279055378257}
+  OnClick: {fileID: 0}
   jackPosTransform: {fileID: 1704062312488971746}
   ringLight: {fileID: 1424697906812536340}
   ringLightRenderer: {fileID: 4056462056752133036}
   minRingLightIntensity: 0
-  maxRingLightIntensity: 300
+  maxRingLightIntensity: 10
   ringLightColor: {r: 1, g: 0.6470588, b: 0, a: 1}
   sfxSource: {fileID: 2756090226326268586}
   jackIn: {fileID: 8300000, guid: 03daaf30ec743d846b31354a693c9e6c, type: 3}

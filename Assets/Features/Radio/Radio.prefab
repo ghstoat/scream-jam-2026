@@ -3066,7 +3066,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Captions here! '
+  m_text: ' '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e2dcb9b08ffbd8f41b87cea73e6047f0, type: 2}
   m_sharedMaterial: {fileID: 4319321746800169697, guid: e2dcb9b08ffbd8f41b87cea73e6047f0, type: 2}

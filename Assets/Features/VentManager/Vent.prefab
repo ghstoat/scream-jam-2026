@@ -240,15 +240,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DetentLever
   objectRenderer: {fileID: 1704164324280587106}
-  pullStart: {fileID: 2277342320734050795}
-  pullEnd: {fileID: 5609302551948552418}
+  OnClick: {fileID: 0}
+  pullStart: {fileID: 5609302551948552418}
+  pullEnd: {fileID: 2277342320734050795}
   resetTime: 0.25
   OnDown:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3262197195363298180}
         m_TargetAssemblyTypeName: Vent, Assembly-CSharp
-        m_MethodName: TryToClose
+        m_MethodName: TryToOpen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -263,7 +264,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3262197195363298180}
         m_TargetAssemblyTypeName: Vent, Assembly-CSharp
-        m_MethodName: TryToOpen
+        m_MethodName: TryToClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -490,7 +491,7 @@ Transform:
   m_GameObject: {fileID: 3014153370199472988}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.199, y: -0.294, z: -0.83}
+  m_LocalPosition: {x: 2.199, y: -0.363, z: -0.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -606,7 +607,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -6089656425088576045, guid: fb44ef7a9c17e554f923bcb051e6e999, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -614,7 +615,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 5
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -715,8 +716,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4853882563231922598}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.72, y: -0, z: -0.83}
+  m_LocalRotation: {x: -0.009074108, y: 0.16954948, z: -0.05266661, w: 0.9840716}
+  m_LocalPosition: {x: 2.419, y: 1.49, z: -0.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -725,7 +726,7 @@ Transform:
   - {fileID: 8789496492848668985}
   - {fileID: 4503333736455135001}
   m_Father: {fileID: 499613099583218587}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 19.551, z: -6.127}
 --- !u!1 &5137440406653346555
 GameObject:
   m_ObjectHideFlags: 0
@@ -794,7 +795,7 @@ Transform:
   m_GameObject: {fileID: 5158991012205314417}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.684, y: 2.009, z: -0.225}
+  m_LocalPosition: {x: -0.08199984, y: 0.38099992, z: -0.22500005}
   m_LocalScale: {x: 0.8077101, y: 1.04468, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1171,7 +1172,7 @@ Transform:
   m_GameObject: {fileID: 5744288707347971068}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.516, y: 2.0157, z: -0.12900013}
+  m_LocalPosition: {x: 0.086000204, y: 0.38769996, z: -0.12900019}
   m_LocalScale: {x: 1.351182, y: 1.23597, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1456,9 +1457,10 @@ MonoBehaviour:
   powerBar: {fileID: 4914909572705801205}
   powerLight: {fileID: 8423797422536919941}
   ambianceSource: {fileID: 3808986479927388126}
-  openVentClip: {fileID: 8300000, guid: 9731c5b70bc907a4f9ac4980f251ba58, type: 3}
+  openVentClip: {fileID: 8300000, guid: 2229b96c3235dfe4f8f723a3737cb01e, type: 3}
   closedVentClip: {fileID: 0}
   ventNoPower: {fileID: 11400000, guid: e83ffc7a51fb01447948ba8cc24af291, type: 2}
+  lever: {fileID: 8734159054254150501}
 --- !u!1 &6673368899394174385
 GameObject:
   m_ObjectHideFlags: 0
@@ -2763,11 +2765,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4654808400995015070, guid: 0798544c83906c146b0a56e4eccd6f33, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.041
+      value: 0.561
       objectReference: {fileID: 0}
     - target: {fileID: 4654808400995015070, guid: 0798544c83906c146b0a56e4eccd6f33, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.3
+      value: 0.672
       objectReference: {fileID: 0}
     - target: {fileID: 4654808400995015070, guid: 0798544c83906c146b0a56e4eccd6f33, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2836,15 +2838,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4654808400995015070, guid: 0798544c83906c146b0a56e4eccd6f33, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.041
+      value: 0.56100017
       objectReference: {fileID: 0}
     - target: {fileID: 4654808400995015070, guid: 0798544c83906c146b0a56e4eccd6f33, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.746
+      value: 0.11799991
       objectReference: {fileID: 0}
     - target: {fileID: 4654808400995015070, guid: 0798544c83906c146b0a56e4eccd6f33, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.203
+      value: -0.20300005
       objectReference: {fileID: 0}
     - target: {fileID: 4654808400995015070, guid: 0798544c83906c146b0a56e4eccd6f33, type: 3}
       propertyPath: m_LocalRotation.w
