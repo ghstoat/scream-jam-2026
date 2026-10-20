@@ -21,10 +21,13 @@ public class HealthManager : MonoBehaviour
     [Header("Temperature")]
     [SerializeField] float maxTimeBadTemp = 30f;
     [SerializeField] float timeBeforeTempDialogue = 15f;
-    private float tempTimer;
+    private float freezeTimer;
+    private float overheatingTimer;
 
 
-    private bool tempDialoguePlayed = false;
+    private bool freezeDialoguePlayed = false;
+    private bool overheatingDialoguePlayed = false;
+
     [SerializeField] PlayerDialogue overheating;
     [SerializeField] PlayerDialogue freezing;
 
@@ -97,37 +100,71 @@ public class HealthManager : MonoBehaviour
 
     public void HandleTemp()
     {
+        HandleFreezing();
+        HandleOverheating();
+    }
+
+    public void HandleFreezing()
+    {
         bool freezing = TemperatureManager.Instance.Freezing;
-        bool overheating = TemperatureManager.Instance.Overheating;
-        bool dying = freezing || overheating;
 
-        if (lockTemp) dying = false;
+        if (lockTemp) freezing = false;
 
-        if (dying)
+        if (freezing)
         {
 
-            tempTimer += Time.deltaTime;
-            if (tempTimer > maxTimeBadTemp)
+            freezeTimer += Time.deltaTime;
+            if (freezeTimer > maxTimeBadTemp)
             {
-                if (freezing) Die(Death.Freezing);
-                if (overheating) Die(Death.Overheating);
+                Die(Death.Freezing);
             }
 
-            if (!tempDialoguePlayed && tempTimer > timeBeforeTempDialogue)
+            if (!freezeDialoguePlayed && freezeTimer > timeBeforeTempDialogue)
             {
-                tempDialoguePlayed = true;
+                freezeDialoguePlayed = true;
                 PlayerDialogue dialogue = this.freezing;
-                if (overheating) dialogue = this.overheating;
 
                 PlayerDialogueManager.Instance.QueueDialogue(dialogue);
             }
             
         }
-        else if (tempTimer > 0)
+        else if (freezeTimer > 0)
         {
           
-            if (tempDialoguePlayed == true) tempDialoguePlayed = false;
-            tempTimer = 0;
+            if (freezeDialoguePlayed == true) freezeDialoguePlayed = false;
+            freezeTimer = 0;
+        }
+    }
+
+    public void HandleOverheating()
+    {
+        bool overheating = TemperatureManager.Instance.Overheating;
+
+        if (lockTemp) overheating = false;
+
+        if (overheating)
+        {
+
+            overheatingTimer += Time.deltaTime;
+            if (overheatingTimer > maxTimeBadTemp)
+            {
+                Die(Death.Overheating);
+            }
+
+            if (!overheatingDialoguePlayed && overheatingTimer > timeBeforeTempDialogue)
+            {
+                overheatingDialoguePlayed = true;
+                PlayerDialogue dialogue = this.overheating;
+
+                PlayerDialogueManager.Instance.QueueDialogue(dialogue);
+            }
+
+        }
+        else if (overheatingTimer > 0)
+        {
+
+            if (overheatingDialoguePlayed == true) overheatingDialoguePlayed = false;
+            overheatingTimer = 0;
         }
     }
 }

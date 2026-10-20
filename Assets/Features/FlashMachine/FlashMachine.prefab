@@ -2977,6 +2977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResettingLever
   objectRenderer: {fileID: 3895676742496912013}
+  OnClick: {fileID: 0}
   pullStart: {fileID: 6501833322093529793}
   pullEnd: {fileID: 531058251991619650}
   hardResetTime: 1.5
@@ -4107,7 +4108,7 @@ Transform:
   m_GameObject: {fileID: 7533432923822536464}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.463, y: 0.676, z: -0.845}
+  m_LocalPosition: {x: 1.66, y: 1.64, z: -0.845}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4725,6 +4726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResettingLever
   objectRenderer: {fileID: 5494805049878824380}
+  OnClick: {fileID: 0}
   pullStart: {fileID: 1174511858928149023}
   pullEnd: {fileID: 5614655345478572604}
   hardResetTime: 1

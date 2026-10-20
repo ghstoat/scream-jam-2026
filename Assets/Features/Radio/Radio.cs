@@ -14,6 +14,7 @@ public class Radio : MonoBehaviour
     [SerializeField] Button talkButton; 
     [SerializeField] Dial dial;
 
+    [SerializeField] GameObject talkButtonPressed;
 
     [SerializeField] FillBar powerBar;
     [SerializeField] LightBulb powerLight;
@@ -75,17 +76,21 @@ public class Radio : MonoBehaviour
             case RadioState.Waiting:
                 incomingLight.SetColor(Color.cornflowerBlue);
                 incomingLight.SetState(LightStates.Blinking);
+                talkButtonPressed.SetActive(false);
                 break;
             case RadioState.Outgoing:
                 incomingLight.SetColor(Color.green);
-                incomingLight.SetState(LightStates.On); 
+                incomingLight.SetState(LightStates.On);
+                talkButtonPressed.SetActive(true);
                 break;
             case RadioState.Incoming:  
                 incomingLight.SetColor(Color.red);
                 incomingLight.SetState(LightStates.On);
+                talkButtonPressed.SetActive(true);
                 break;
              default:
                 incomingLight.SetState(LightStates.Off);
+                talkButtonPressed.SetActive(false);
                 break;
 
         }

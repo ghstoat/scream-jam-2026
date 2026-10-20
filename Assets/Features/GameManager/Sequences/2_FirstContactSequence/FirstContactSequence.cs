@@ -90,12 +90,15 @@ public class FirstContactSequence : Sequence
             yield return null;
         }
 
+        CockpitManager.Instance.PowerSwitcher.PowerResetLever.Lock(true);
+
         MissionManager.Instance.ClearMission();
 
         radioDialogueEnded = false;
         while (!radioDialogueEnded) yield return null;
 
         PlayerDialogueManager.Instance.ForceDialogue(stayAlive);
+        CockpitManager.Instance.PowerSwitcher.PowerResetLever.Lock(false);
 
         dialogueEnded = false;
         while (!dialogueEnded) yield return null;

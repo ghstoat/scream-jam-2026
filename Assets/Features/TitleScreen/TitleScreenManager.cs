@@ -86,11 +86,26 @@ public class TitleScreenManager : MonoBehaviour
         saveFoundScreen.SetActive(false);
 
         dialogueText.text = "Click to start";
+
+        fadeOutCanvasGroup.alpha = 1;
         textCanvasGroup.alpha = 0;
         yield return new WaitForSeconds(1f);
 
-        float fadeDuration = 1f;
+        float fadeDuration = 2f;
         float timer = 0f;
+
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime;
+            fadeOutCanvasGroup.alpha = Mathf.Clamp01((fadeDuration - timer )/ fadeDuration);
+            yield return null;
+        }
+        fadeOutCanvasGroup.alpha = 0;
+        yield return new WaitForSeconds(.5f);
+
+
+        fadeDuration = 1f;
+        timer = 0f;
 
         while (timer < fadeDuration)
         {
