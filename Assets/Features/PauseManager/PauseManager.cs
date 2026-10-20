@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class PauseManager : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current[pauseControl].wasPressedThisFrame && !TutorialManager.Instance.ShowingTutorial)
+        if (Keyboard.current[pauseControl].wasPressedThisFrame && !TutorialManager.Instance.ShowingTutorial && !HealthManager.Instance.dead)
         {
             TogglePause();
             return;
@@ -85,6 +86,7 @@ public class PauseManager : MonoBehaviour
 
     public void Quit()
     {
-        Debug.LogWarning("No quit functionality");
+        if (paused) TogglePause();
+        SceneManager.LoadScene("TitleScreen");
     }
 }

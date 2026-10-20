@@ -10,6 +10,8 @@ public class CustomCursorUI : MonoBehaviour
     private void Awake()
     {
         Cursor.visible = false;
+
+        DontDestroyOnLoad(this);
     }
 
     private void Update()

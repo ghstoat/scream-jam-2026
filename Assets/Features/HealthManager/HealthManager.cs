@@ -1,4 +1,8 @@
+using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum Death
 {
@@ -33,6 +37,13 @@ public class HealthManager : MonoBehaviour
 
     private bool lockTemp = false;
 
+    [Header("Death")]
+    [SerializeField] GameObject deathScreen;
+    [SerializeField] TextMeshProUGUI deathMessageText;
+    [SerializeField] Dictionary<Death, string> deathMessageDict;
+    public bool dead {  get; private set; }
+
+
     public static HealthManager Instance { get; private set; }
     private void Awake()
     {
@@ -44,13 +55,36 @@ public class HealthManager : MonoBehaviour
         }
 
         Instance = this;
-
+        dead = false;
     }
 
     public void Die(Death death)
     {
+        if (dead) return; 
+        TimeManager.Instance.PauseTime(true);
+
+        dead = true;
+        deathMessageText.text = deathMessageDict[death];
+        deathScreen.SetActive(true);
+
         Debug.LogWarning(death.ToString());
     }
+
+    public void ContinueFromCheckpoint()
+    {
+        TimeManager.Instance.PauseTime(false);
+
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
+    }
+
+    public void ReturnToTitle()
+    {
+        TimeManager.Instance.PauseTime(false);
+
+        SceneManager.LoadScene("TitleScreen");
+    }
+
     private void Update()
     {
         HandleOxygen();

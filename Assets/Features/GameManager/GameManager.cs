@@ -26,10 +26,10 @@ public class GameManager : MonoBehaviour
     {
         if (sequenceArray.Length == 0) return;
 
-        if (Application.isEditor)
-        {
-            ResetSave();
-        }
+        //if (Application.isEditor)
+        //{
+        //    ResetSave();
+        //}
        
 
 

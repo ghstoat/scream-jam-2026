@@ -13,6 +13,7 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] CanvasGroup textCanvasGroup;
     [SerializeField] CanvasGroup fadeOutCanvasGroup;
     [SerializeField] GameObject saveFoundScreen;
+    [SerializeField] AudioSource typeSFX;
 
     [SerializeField] float typewriterSpeed = 0.04f;
 
@@ -178,6 +179,7 @@ public class TitleScreenManager : MonoBehaviour
         for (int i = 1; i <= characterCount; i++)
         {
             dialogueText.maxVisibleCharacters = i;
+            typeSFX.Play();
             yield return new WaitForSeconds(typewriterSpeed);
         }
 
