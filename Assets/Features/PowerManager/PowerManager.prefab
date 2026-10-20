@@ -152,7 +152,7 @@ MonoBehaviour:
   maxLightTemp: 20000
   minLightTemp: 3000
   minTimeBetweenSolarFlares: 50
-  maxTimeBetweenSolarFlares: 80
+  maxTimeBetweenSolarFlares: 90
 --- !u!1 &4074253271724983418
 GameObject:
   m_ObjectHideFlags: 0
