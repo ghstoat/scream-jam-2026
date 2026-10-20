@@ -15,8 +15,8 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: "\u2026Right."
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 6c823521ac5a46b4faeee3cdfe95166c, type: 3}
   - text: Just stay alive until dawn.
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 407a5484ccbdae041a7b928c83e5167e, type: 3}
   - text: You've got this, Birdie.
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: aae5474dd5e83264e81627ec0bd9bf63, type: 3}

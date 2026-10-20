@@ -15,6 +15,6 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: "That\u2019s right! "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 8728fca179a5e3148b3c95bc15988d7c, type: 3}
   - text: "It was under me, wasn\u2019t it. "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 72b909c0e3092864f8fd2be31ba08e0e, type: 3}

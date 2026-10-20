@@ -15,6 +15,6 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: 60 seconds?!
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 1c32fd0bfe9b3334ea9eecd228376158, type: 3}
   - text: 'Shit! I need to get out of here! '
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: c5df1402c9a78e74c9d9f70aa9255f56, type: 3}

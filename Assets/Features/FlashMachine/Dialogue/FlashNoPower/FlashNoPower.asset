@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d201ef38c6229cd4197b4413f9ca5e5c, type: 3}
   m_Name: FlashNoPower
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDialogue
+  priority: 0
   lines:
   - text: "It\u2019s not generating any charge. "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: c27dc92e7000ff14988aee6a319154cc, type: 3}
   - text: I should allocate some power to the flash.
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: eb9178f9c3739fa48a944852ac86a3e6, type: 3}

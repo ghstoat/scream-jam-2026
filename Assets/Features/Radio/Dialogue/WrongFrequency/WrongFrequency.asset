@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d201ef38c6229cd4197b4413f9ca5e5c, type: 3}
   m_Name: WrongFrequency
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDialogue
+  priority: 0
   lines:
   - text: My outgoing frequency is wrong.
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 42e2394f07b95d4498a23bd5583f87e8, type: 3}
   - text: 'It needs to match the incoming frequency. '
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 760940b3cefd6464d92c5b3f017f07c6, type: 3}

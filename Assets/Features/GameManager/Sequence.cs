@@ -2,8 +2,6 @@ using UnityEngine;
 
 public abstract class Sequence : ScriptableObject
 {
-    public float delay;
-
     public bool ready = false;
 
     public bool finished = false;

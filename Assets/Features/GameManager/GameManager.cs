@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,9 @@ public class GameManager : MonoBehaviour
     public Sequence[] sequenceArray;
     private Queue<Sequence> sequenceQueue = new Queue<Sequence> ();
     public static GameManager Instance { get; private set; }
+
+    public static string Checkpoint { get; private set; } = "Checkpoint"; 
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -22,67 +26,55 @@ public class GameManager : MonoBehaviour
     {
         if (sequenceArray.Length == 0) return;
 
-        sequenceQueue.Clear ();
-        foreach (Sequence seq in sequenceArray)
+        if (Application.isEditor)
         {
-            sequenceQueue.Enqueue(seq);
+            ResetSave();
         }
+       
 
-        StartCoroutine(SequenceRoutine());
+
+        int checkpoint = PlayerPrefs.GetInt(Checkpoint, 0);
+
+
+
+        StartCoroutine(SequenceRoutine(checkpoint));
     }
 
-    public bool SkipToSequence(Sequence target)
+    [Button]
+    public void ResetSave()
     {
-        Queue<Sequence> newQueue = new Queue<Sequence>();
+        PlayerPrefs.SetInt(Checkpoint, 0);
+        PlayerPrefs.Save();
+    }
 
-
-        bool found = false; 
-        foreach(var sequence in sequenceQueue)
+    private IEnumerator SequenceRoutine(int checkpoint)
+    {
+        if (sequenceArray == null || checkpoint < 0 || checkpoint > sequenceArray.Length)
         {
-            if (sequence == target)
-            {
-                found = true;
-            }
-
-            if (found) newQueue.Enqueue(sequence);
+            Debug.LogError("Invalid checkpoint configuration.");
+            yield break;
         }
 
-        if (!found) return false;
-
-        sequenceQueue = newQueue;
-        return true;
-    }
-    private IEnumerator SequenceRoutine()
-    {
-        while (true)
+        for (int i = checkpoint; i < sequenceArray.Length; i++)
         {
-            if (sequenceQueue.Count <= 0)
-            {
-                yield return null;
-                continue;
-            }
+            Sequence sequence = sequenceArray[i];
 
-            Sequence sequence = sequenceQueue.Dequeue();
+            if (sequence == null)
+            {
+                Debug.LogError($"Sequence at index {i} is null.");
+                yield break;
+            }
 
             sequence.Init();
 
-            yield return new WaitForSeconds(sequence.delay);
-
-            while (!sequence.ready)
-            {
-                yield return null;
-            }
+            yield return new WaitUntil(() => sequence.ready);
 
             sequence.Execute(this);
 
-            while (!sequence.finished)
-            {
-                yield return null;
-            }
+            yield return new WaitUntil(() => sequence.finished);
 
-
-
-            yield return null;
+            PlayerPrefs.SetInt(Checkpoint, i + 1);
+            PlayerPrefs.Save();
         }
     }
 

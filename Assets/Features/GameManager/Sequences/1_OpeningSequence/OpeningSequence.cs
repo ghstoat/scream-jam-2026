@@ -46,7 +46,7 @@ public class OpeningSequence : Sequence
         yield return new WaitForSeconds(.1f);
         PowerManager.Instance.FillAllSystems();
 
-        MusicManager.Instance.PlayMusic(openingMusic, .5f, 0, 0, true, true); 
+        MusicManager.Instance.PlayMusic(openingMusic, .2f, 0, 0, true, true); 
 
         CockpitManager.Instance.SetState(CockpitState.Alarm);
 

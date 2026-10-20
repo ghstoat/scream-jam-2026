@@ -76,7 +76,6 @@ public class TemperatureManager : PoweredSystem
         {
             extTemp = Random.Range(minExtTemp, maxExtTemp);
             timeToNextSolarFlare = Random.Range(minTimeBetweenSolarFlares, maxTimeBetweenSolarFlares);
-
             while (timeToNextSolarFlare > 0)
             {
                 timeToNextSolarFlare -= Time.deltaTime;

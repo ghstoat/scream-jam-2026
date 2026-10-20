@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d201ef38c6229cd4197b4413f9ca5e5c, type: 3}
   m_Name: VentNoPower
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDialogue
+  priority: 0
   lines:
   - text: "The vent won\u2019t move without any power. "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: ce0daec3f8c20ef4987508b46635e937, type: 3}

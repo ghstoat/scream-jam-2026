@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -11,6 +12,7 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] TMP_Text dialogueText;
     [SerializeField] CanvasGroup textCanvasGroup;
     [SerializeField] CanvasGroup fadeOutCanvasGroup;
+    [SerializeField] GameObject saveFoundScreen;
 
     [SerializeField] float typewriterSpeed = 0.04f;
 
@@ -22,22 +24,47 @@ public class TitleScreenManager : MonoBehaviour
     private bool isTyping;
     private bool dialogueStarted;
     private bool waitingForClickRelease;
+
+    private bool saveFound;
+
     private void Start()
     {
+        saveFound = false;  
         asyncLoad = SceneManager.LoadSceneAsync("Mech", LoadSceneMode.Single);
         asyncLoad.allowSceneActivation = false;
 
-        dialogueText.text = "Click to start";
+        if (PlayerPrefs.GetInt(GameManager.Checkpoint, 0) != 0)
+        {
+            saveFound = true;
+            saveFoundScreen.SetActive(true);
+
+        }
+        else
+        {
+            StartCoroutine(StartTitle());
+        }
+
+    }
+
+    public void Continue() //called from saveFoundScreen
+    {
+        asyncLoad.allowSceneActivation = true;
+    }
+
+    public void Restart() //called from saveFoundScreen
+    {
+        saveFound = false;
+        PlayerPrefs.SetInt(GameManager.Checkpoint, 0);
 
         StartCoroutine(StartTitle());
     }
 
+
     private void Update()
     {
-        if (Mouse.current == null)
-            return;
+        if (saveFound) return;
 
-        // Wait until the start click has been released.
+
         if (waitingForClickRelease)
         {
             if (Mouse.current.leftButton.wasReleasedThisFrame)
@@ -48,8 +75,7 @@ public class TitleScreenManager : MonoBehaviour
             return;
         }
 
-        if (dialogueStarted &&
-            Mouse.current.leftButton.wasPressedThisFrame)
+        if (dialogueStarted && Mouse.current.leftButton.wasPressedThisFrame)
         {
             HandleDialogueClick();
         }
@@ -57,6 +83,9 @@ public class TitleScreenManager : MonoBehaviour
 
     private IEnumerator StartTitle()
     {
+        saveFoundScreen.SetActive(false);
+
+        dialogueText.text = "Click to start";
         textCanvasGroup.alpha = 0;
         yield return new WaitForSeconds(1f);
 
@@ -76,7 +105,6 @@ public class TitleScreenManager : MonoBehaviour
             yield return null;
         }
 
-        // Lock dialogue input until this click is released.
         waitingForClickRelease = true;
 
         StartDialogue();
@@ -91,15 +119,14 @@ public class TitleScreenManager : MonoBehaviour
         dialogueStarted = true;
         currentLine = 0;
 
-        dialogueCoroutine = StartCoroutine(DialogueRoutine());
+        dialogueCoroutine = StartCoroutine(TypeLine(openingDialogue[currentLine]));
     }
 
     private void HandleDialogueClick()
     {
         if (isTyping)
         {
-            if (dialogueCoroutine != null)
-                StopCoroutine(dialogueCoroutine);
+            if (dialogueCoroutine != null) StopCoroutine(dialogueCoroutine);
 
             dialogueText.maxVisibleCharacters = int.MaxValue;
             isTyping = false;
@@ -121,17 +148,6 @@ public class TitleScreenManager : MonoBehaviour
         }
     }
 
-    private IEnumerator DialogueRoutine()
-    {
-        if (openingDialogue.Length == 0)
-        {
-            dialogueStarted = false;
-            yield return StartCoroutine(CrashRoutine());
-            yield break;
-        }
-
-        yield return StartCoroutine(TypeLine(openingDialogue[currentLine]));
-    }
 
     private IEnumerator TypeLine(string line)
     {
@@ -140,7 +156,6 @@ public class TitleScreenManager : MonoBehaviour
         dialogueText.text = line;
         dialogueText.maxVisibleCharacters = 0;
 
-        // Ensure TMP has updated its character information.
         dialogueText.ForceMeshUpdate();
 
         int characterCount = dialogueText.textInfo.characterCount;

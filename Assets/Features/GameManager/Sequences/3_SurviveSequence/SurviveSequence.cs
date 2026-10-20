@@ -103,7 +103,7 @@ public class SurviveSequence : Sequence
 
         HealthManager.Instance.LockTemp(false);
 
-        float tempTimeNeeded = 5;
+        float tempTimeNeeded = 10;
         float timer = 0;
 
         while (timer < tempTimeNeeded)
@@ -126,6 +126,8 @@ public class SurviveSequence : Sequence
             yield return null;
 
         }
+
+        PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Heater.transform, 1f, 1f);
 
         //vent section
 

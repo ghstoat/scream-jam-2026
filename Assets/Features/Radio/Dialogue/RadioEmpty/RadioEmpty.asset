@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d201ef38c6229cd4197b4413f9ca5e5c, type: 3}
   m_Name: RadioEmpty
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDialogue
+  priority: 0
   lines:
   - text: "There\u2019s no incoming messages. "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 55995f49ff05c384e8f440545ad0fb9d, type: 3}

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d201ef38c6229cd4197b4413f9ca5e5c, type: 3}
   m_Name: Overheating
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDialogue
+  priority: 0
   lines:
   - text: "God. It\u2019s getting pretty hot in here. "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 490ee25bfde1c9241aa8f24213ebbcb4, type: 3}
   - text: 'I should check on the heater. '
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 72e4ac5c4e26a054c8cf1cb365405f53, type: 3}

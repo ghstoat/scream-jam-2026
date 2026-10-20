@@ -15,10 +15,10 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: Eeeek!
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 40791f43a2d62c349ab3cca3720e0ee3, type: 3}
   - text: That scared me!
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 698157a2c0f43aa43b9cd7ba162d103f, type: 3}
   - text: I think it's Command.
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: c30f41a62e449f340b79ed9ccc79d83b, type: 3}
   - text: I'd better respond quickly.
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 58d4feb9a899cea4d9ce17b3a62a3683, type: 3}

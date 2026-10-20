@@ -15,10 +15,10 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: A-ah... my head!
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: c2ccee75ec7d262429128b00e32d6699, type: 3}
   - text: 'What on earth hit me?! '
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 1fd0f57156c63e845991b992c1a139bc, type: 3}
   - text: "I think the fuel tank is leaking\u2026 "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 1a277db1ce7abb44790c0efe33e1ddf5, type: 3}
   - text: "Oh god\u2026 what do I do? "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: b657d62ad150bf249ae6527094e60695, type: 3}
