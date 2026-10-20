@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VentManager
   maxPower: 100
   openingSpeedPerPower: 0.002
+  maxToxicity: 20
+  toxicityPerSecond: 1
 --- !u!1 &3494589643648738814
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +154,7 @@ MonoBehaviour:
   maxLightTemp: 20000
   minLightTemp: 3000
   minTimeBetweenSolarFlares: 50
-  maxTimeBetweenSolarFlares: 80
+  maxTimeBetweenSolarFlares: 90
 --- !u!1 &4074253271724983418
 GameObject:
   m_ObjectHideFlags: 0
