@@ -151,8 +151,8 @@ MonoBehaviour:
   maxExtTemp: 0
   maxHeaterTemp: 50
   tempChangeSpeed: 4
-  maxLightTemp: 20000
-  minLightTemp: 3000
+  maxLightTemp: 10570
+  minLightTemp: 2570
   minTimeBetweenSolarFlares: 50
   maxTimeBetweenSolarFlares: 90
 --- !u!1 &4074253271724983418

@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b6a76c72e746674999cf9fca4e63d5e, type: 3}
   m_Name: 1_OpeningSequence
   m_EditorClassIdentifier: Assembly-CSharp::OpeningSequence
-  delay: 0
   ready: 1
-  finished: 0
+  finished: 1
   eyesOpen: {fileID: 11400000, guid: 4302a650cd6ee304ba3a19c257cf6946, type: 2}
   sixtySeconds: {fileID: 11400000, guid: 4f2185391e5a0fb428ffc2e5d489345e, type: 2}
   ejectClue1: {fileID: 11400000, guid: 6f270c84f60a73945b7ad92dce68dd80, type: 2}
   ejectClue2: {fileID: 11400000, guid: 6142006a76b7c6549bdf464df623e1a1, type: 2}
   failedEject: {fileID: 11400000, guid: d841cdaca5200c6459ca3a235c76a17d, type: 2}
-  openingMusic: {fileID: 8300000, guid: 90b84c8dacc9afa4d8268e037e6b88c3, type: 3}
+  openingMusic: {fileID: 8300000, guid: 16c63cf32781a0748a55a18463536103, type: 3}

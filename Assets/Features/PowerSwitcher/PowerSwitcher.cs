@@ -75,6 +75,21 @@ public class PowerSwitcher : MonoBehaviour
 
     public NodeState lastState = NodeState.None;
 
+    private void Awake()
+    {
+
+
+        defJackAPos = jackA.transform.position;
+        defJackBPos = jackB.transform.position;
+
+        defJackARot = jackA.transform.rotation;
+        defJackBRot = jackB.transform.rotation;
+
+
+
+
+    }
+
     private void Start()
     {
         CreateNodes();
@@ -86,16 +101,8 @@ public class PowerSwitcher : MonoBehaviour
             node.node.Init(this);
         }
 
-        defJackAPos = jackA.transform.position;
-        defJackBPos = jackB.transform.position;
-
-        defJackARot = jackA.transform.rotation;
-        defJackBRot = jackB.transform.rotation;
-
-
-        DisconnectJackA();
-        DisconnectJackB();
-
+        //DisconnectJackA();
+        //DisconnectJackB();
     }
 
     private void Update()

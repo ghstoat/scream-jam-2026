@@ -47,7 +47,6 @@ public class OpeningSequence : Sequence
         yield return new WaitForSeconds(.1f);
         PowerManager.Instance.FillAllSystems();
 
-        MusicManager.Instance.PlayMusic(openingMusic, .2f, 0, 0, true, true); 
 
         CockpitManager.Instance.SetState(CockpitState.Alarm);
 
@@ -77,6 +76,8 @@ public class OpeningSequence : Sequence
 
         TutorialManager.Instance.OpenTutorial(Tutorial.Interact);
         yield return new WaitForSeconds(0.1f);
+
+        MusicManager.Instance.PlayMusic(openingMusic, .2f, 0, .5f, true, true);
 
         ejectPressed = false;
         CockpitManager.Instance.EjectButton.Lock(false);
@@ -121,6 +122,8 @@ public class OpeningSequence : Sequence
             }
             yield return null;
         }
+
+        PlayerDialogueManager.Instance.InterruptDialogue();
 
         yield return new WaitForSeconds(3f);
 

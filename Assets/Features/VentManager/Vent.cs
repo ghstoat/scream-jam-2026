@@ -11,7 +11,7 @@ public class Vent : MonoBehaviour
     [SerializeField] LightBulb closingLight;
 
     [SerializeField] FillBar powerBar;
-    [SerializeField] LightBulb powerLight;
+    [SerializeField] Gauge toxicityGauge;
 
     [SerializeField] AudioSource ambianceSource;
 
@@ -80,8 +80,7 @@ public class Vent : MonoBehaviour
         }
 
         powerBar.SetTargetScaleYFromRatio(VentManager.Instance.PowerRatio);
-        if (VentManager.Instance.PowerEmpty) powerLight.SetState(LightStates.Off);
-        else powerLight.SetState(LightStates.On);
+        toxicityGauge.SetTargetAngleFromRatio(1 - VentManager.Instance.ToxicityRatio);
     }
 
     public void TryToOpen()
