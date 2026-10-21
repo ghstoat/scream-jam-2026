@@ -31,11 +31,14 @@ public class RadioManager : PoweredSystem
     [SerializeField] int minFrequency = 50;
     [SerializeField] int maxFrequency = 250;
 
+    bool rightFreq = false;
     public int MinFrequency => minFrequency;
     public int MaxFrequency => maxFrequency;
 
     public UnityEvent OnRadioDialogueStart;
     public UnityEvent OnRadioDialogueEnd;
+    public UnityEvent OnMessageRecieved;
+    public UnityEvent OnRightFreq;
 
 
     [Header("Player dialogue")]
@@ -63,6 +66,7 @@ public class RadioManager : PoweredSystem
         state = RadioState.None;
         incomingMessage = null;
 
+        rightFreq = false;
         dialogueStarted = false;
 
         PlayerDialogueManager.Instance.OnDialogueStart.AddListener(OnPlayerDialogueStart);
@@ -85,7 +89,7 @@ public class RadioManager : PoweredSystem
     public void ReceiveMessage(Conversation conversation)
     {
         RadioDialogue[] messages = conversation.Dialogue;
-
+        OnMessageRecieved?.Invoke();
         foreach (RadioDialogue message in messages)
         {
             ReceiveMessage(message);
@@ -104,6 +108,22 @@ public class RadioManager : PoweredSystem
     public void SetFrequency(int frequency)
     {
         this.frequency = Mathf.Clamp(frequency, minFrequency, maxFrequency);
+
+        if (!rightFreq)
+        {
+            if (incomingMessage != null && incomingMessage.frequency == this.frequency)
+            {
+                rightFreq = true;
+                OnRightFreq?.Invoke();
+            }
+        }
+        else
+        {
+            if (incomingMessage == null || incomingMessage.frequency != this.frequency)
+            {
+                rightFreq = false;
+            }
+        }
     }
 
 
@@ -128,6 +148,30 @@ public class RadioManager : PoweredSystem
         {
             StartOutgoing();
         }
+    }
+
+    public bool IsCorrectFrequency()
+    {
+        if (CanUseRadio && incomingMessage == null) return true;
+
+        if (state != RadioState.None && frequency == incomingMessage.frequency)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool IsIncorrectFrequency()
+    {
+        if (incomingMessage == null) return false;
+
+        if ((state != RadioState.None || CanUseRadio) && incomingMessage != null && frequency != incomingMessage.frequency)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private void StartOutgoing()

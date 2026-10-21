@@ -16,5 +16,3 @@ MonoBehaviour:
   lines:
   - text: Oh god! Where did it go?!
     voiceline: {fileID: 0}
-  - text: Not this again!
-    voiceline: {fileID: 0}

@@ -36,7 +36,7 @@ public class EncounterSequence : Sequence
 
         yield return new WaitForSeconds(3);
 
-        //spawn girl here
+        GhostGirlManager.Instance.Appear();
 
         PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Screen.transform, 1f, 1f, true);
         PlayerDialogueManager.Instance.ForceDialogue(encounter);
@@ -55,13 +55,13 @@ public class EncounterSequence : Sequence
         PlayerDialogueManager.Instance.ignoreNonPriority = true;
         PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Screen.transform, .5f, 1f, false);
 
-        //anim of girl moving away
+        GhostGirlManager.Instance.Appear();
 
         while (!flashed) yield return null;
 
         flashed = false;
 
-        //girl gone
+        GhostGirlManager.Instance.Hidden();
 
 
         while (!flashed) yield return null;
@@ -70,7 +70,7 @@ public class EncounterSequence : Sequence
 
         PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Screen.transform, 0.2f, 2f, true);
 
-        //girl jumpscare
+        GhostGirlManager.Instance.Jump();
 
         PlayerDialogueManager.Instance.ForceDialogue(scare);
 
@@ -82,6 +82,7 @@ public class EncounterSequence : Sequence
         PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Radio.IncomingLight.transform, 0.2f, 1f, true);
 
         yield return new WaitForSeconds(0.5f);
+        GhostGirlManager.Instance.Hidden();
 
         PlayerDialogueManager.Instance.ForceDialogue(radioJump2);
 

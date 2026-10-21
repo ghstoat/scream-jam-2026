@@ -146,7 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TemperatureManager
   maxPower: 100
   minLivableTemp: 5
-  maxLivableTemp: 30
+  maxLivableTemp: 25
   minExtTemp: -40
   maxExtTemp: 0
   maxHeaterTemp: 50
@@ -358,6 +358,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnRadioDialogueEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMessageRecieved:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRightFreq:
     m_PersistentCalls:
       m_Calls: []
   radioEmpty: {fileID: 11400000, guid: 3d5cd7e802f135348ab913857a8c3a6d, type: 2}

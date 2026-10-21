@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56118a0743bb1d34da60704bf3a66f2c, type: 3}
   m_Name: 3_SurviveSequence
   m_EditorClassIdentifier: Assembly-CSharp::SurviveSequence
-  delay: 0
-  ready: 0
   finished: 0
   music: {fileID: 0}
   oxygenIntro: {fileID: 11400000, guid: a84317961332f7a4c978c99c0945ce70, type: 2}
   heaterIntro: {fileID: 11400000, guid: edf3ff04485a8944b858774fc92f4038, type: 2}
   ventIntro: {fileID: 11400000, guid: 1161a4f4875ab61438b1a2f41d186c4e, type: 2}
+  safe: {fileID: 11400000, guid: 056405d0cae25544dae615c7b54eefe1, type: 2}

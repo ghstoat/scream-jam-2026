@@ -16,5 +16,3 @@ MonoBehaviour:
   lines:
   - text: "God. It\u2019s getting pretty hot in here. "
     voiceline: {fileID: 8300000, guid: 490ee25bfde1c9241aa8f24213ebbcb4, type: 3}
-  - text: 'I should check on the heater. '
-    voiceline: {fileID: 8300000, guid: 72e4ac5c4e26a054c8cf1cb365405f53, type: 3}

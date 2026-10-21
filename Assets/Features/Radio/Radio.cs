@@ -27,6 +27,10 @@ public class Radio : MonoBehaviour
 
     [Header("References")]
     [SerializeField] AudioSource dialogueSource;
+    [SerializeField] AudioSource newMessageSource;
+    [SerializeField] AudioSource wrongFreq;
+    [SerializeField] AudioSource rightFreq;
+    [SerializeField] AudioSource onRightFreqSource;
 
     [SerializeField] TextMeshProUGUI captionText;
 
@@ -41,6 +45,8 @@ public class Radio : MonoBehaviour
     private void Start()
     {
         RadioManager.Instance.OnRadioDialogueStart.AddListener(StartRadioDialogue);
+        RadioManager.Instance.OnMessageRecieved.AddListener(OnMessageRecieved);
+        RadioManager.Instance.OnRightFreq.AddListener(OnRightFreq);
 
         dialogueQueue.Clear();
         ClearCaptions();
@@ -56,6 +62,16 @@ public class Radio : MonoBehaviour
 
         if (dialogueRoutine == null && dialogueQueue.Count > 0) dialogueRoutine = StartCoroutine(DialogueRoutine());
 
+    }
+
+    private void OnMessageRecieved()
+    {
+        newMessageSource.Play();
+    }
+
+    private void OnRightFreq()
+    {
+        onRightFreqSource.Play();
     }
 
     private void UpdateIndicators()
@@ -77,27 +93,49 @@ public class Radio : MonoBehaviour
                 incomingLight.SetColor(Color.cornflowerBlue);
                 incomingLight.SetState(LightStates.Blinking);
                 talkButtonPressed.SetActive(false);
+
+                dial.Lock(false);
+                talkButton.Lock(false);
                 break;
             case RadioState.Outgoing:
                 incomingLight.SetColor(Color.green);
                 incomingLight.SetState(LightStates.On);
                 talkButtonPressed.SetActive(true);
+
+                dial.Lock(true);
+                talkButton.Lock(true);
                 break;
             case RadioState.Incoming:  
                 incomingLight.SetColor(Color.red);
                 incomingLight.SetState(LightStates.On);
                 talkButtonPressed.SetActive(true);
+
+                dial.Lock(true);
+                talkButton.Lock(true);
                 break;
              default:
                 incomingLight.SetState(LightStates.Off);
                 talkButtonPressed.SetActive(false);
+
+                dial.Lock(false);
+                talkButton.Lock(false);
                 break;
 
         }
 
+        if (RadioManager.Instance.IsCorrectFrequency()) rightFreq.volume = 1;
+        else rightFreq.volume = 0;
+
+        if (RadioManager.Instance.IsIncorrectFrequency()) wrongFreq.volume = 1;
+        else wrongFreq.volume = 0;
 
         powerBar.SetTargetScaleYFromRatio(RadioManager.Instance.PowerRatio);
-        if (RadioManager.Instance.CanUseRadio) powerLight.SetState(LightStates.On);
+        if (RadioManager.Instance.CanUseRadio)
+        {
+            powerLight.SetState(LightStates.On);
+
+
+        }
         else powerLight.SetState(LightStates.Off);
     }
 

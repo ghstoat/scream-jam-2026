@@ -16,5 +16,3 @@ MonoBehaviour:
   lines:
   - text: "Brrr\u2026 it\u2019s getting\u2026 really\u2026 cold\u2026 "
     voiceline: {fileID: 8300000, guid: da52ce5c61daca142b6cae41a0662404, type: 3}
-  - text: "I should\u2026 check on the heater."
-    voiceline: {fileID: 8300000, guid: 5d7bfde28ccc2cc45b6bc4fcb0031b06, type: 3}
