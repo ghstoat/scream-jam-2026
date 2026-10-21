@@ -16,10 +16,10 @@ public class SurviveSequence : Sequence
     [SerializeField] PlayerDialogue oxygenIntro;
     [SerializeField] PlayerDialogue heaterIntro;
     [SerializeField] PlayerDialogue ventIntro;
+    [SerializeField] PlayerDialogue safe;
 
     public override void Init()
     {
-        ready = true;
         finished = false;
     }
     public override void Execute(GameManager ctx)
@@ -160,7 +160,9 @@ public class SurviveSequence : Sequence
 
         }
 
-        Debug.Log("Suvive done");
+        PlayerDialogueManager.Instance.QueueDialogue(safe);
+
+        yield return new WaitForSeconds(20);
 
         UnsubscribeToEvents();
         finished = true;

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f662afa61196f134ea4c6e4aeebb9abb, type: 3}
+  m_Name: CommandGirl
+  m_EditorClassIdentifier: Assembly-CSharp::Conversation
+  dialogue:
+  - {fileID: 11400000, guid: 95aa143a80b730c459c370e19eeac8d0, type: 2}
+  - {fileID: 11400000, guid: 00c024084ee331e4986d506ecd94ca5b, type: 2}
+  - {fileID: 11400000, guid: f40733c6eaf747745a6c934c4e33ca57, type: 2}
+  - {fileID: 11400000, guid: 82e2ce81f618bc145b4557b61548caa2, type: 2}

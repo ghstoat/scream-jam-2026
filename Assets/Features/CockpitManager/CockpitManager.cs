@@ -31,6 +31,7 @@ public class CockpitManager : MonoBehaviour
 
     [Header("Systems In Cockpit")]
     [SerializeField] Light mainLight;
+    [SerializeField] GameObject screen;
     [SerializeField] OxygenMeter oxygenMeter;
     [SerializeField] Heater heater;
     [SerializeField] Radio radio;
@@ -40,6 +41,7 @@ public class CockpitManager : MonoBehaviour
     [SerializeField] Button ejectButton;
 
     public Light MainLight => mainLight;
+    public GameObject Screen => screen;
     public OxygenMeter OxygenMeter => oxygenMeter;
     public Heater Heater => heater;
     public Radio Radio => radio;

@@ -6,7 +6,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public Sequence[] sequenceArray;
-    private Queue<Sequence> sequenceQueue = new Queue<Sequence> ();
     public static GameManager Instance { get; private set; }
 
     public static string Checkpoint { get; private set; } = "Checkpoint"; 
@@ -66,8 +65,6 @@ public class GameManager : MonoBehaviour
             }
 
             sequence.Init();
-
-            yield return new WaitUntil(() => sequence.ready);
 
             sequence.Execute(this);
 

@@ -18,7 +18,6 @@ public class OpeningSequence : Sequence
     private bool ejectPressed;
     public override void Init()
     {
-        ready = true;
         finished = false;
     }
 
@@ -123,7 +122,7 @@ public class OpeningSequence : Sequence
             yield return null;
         }
 
-        PlayerDialogueManager.Instance.InterruptDialogue();
+        PlayerDialogueManager.Instance.InterruptDialogue(); 
 
         yield return new WaitForSeconds(3f);
 

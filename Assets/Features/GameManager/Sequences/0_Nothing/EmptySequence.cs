@@ -6,7 +6,6 @@ public class EmptySequence : Sequence
 {
     public override void Init()
     {
-        ready = true;
         finished = false;
     }
     public override void Execute(GameManager ctx)

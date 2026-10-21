@@ -548,6 +548,7 @@ MonoBehaviour:
   selfDestructVoice: {fileID: 2102967047}
   selfDestructDuration: 60
   mainLight: {fileID: 166303750}
+  screen: {fileID: 880414605}
   oxygenMeter: {fileID: 1394400865}
   heater: {fileID: 4632099003950148462}
   radio: {fileID: 6220695561901415170}
@@ -1889,6 +1890,11 @@ Transform:
   - {fileID: 2033496416}
   m_Father: {fileID: 292719671}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &880414605 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1296913886729379489, guid: 7febcf7afdde2c14abc318b47dd02fd9, type: 3}
+  m_PrefabInstance: {fileID: 4045606993629015552}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &910154671
 GameObject:
   m_ObjectHideFlags: 0
@@ -4764,6 +4770,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6873455623609147223, guid: 5e92e52e008ac05439d62cc967d164c0, type: 3}
+      propertyPath: sequenceArray.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873455623609147223, guid: 5e92e52e008ac05439d62cc967d164c0, type: 3}
+      propertyPath: 'sequenceArray.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c2c99ee30594504eb9cb842af14d3d1, type: 2}
+    - target: {fileID: 6873455623609147223, guid: 5e92e52e008ac05439d62cc967d164c0, type: 3}
+      propertyPath: 'sequenceArray.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 29d9b569c56f7fa4cba3aed002192627, type: 2}
+    - target: {fileID: 6873455623609147223, guid: 5e92e52e008ac05439d62cc967d164c0, type: 3}
+      propertyPath: 'sequenceArray.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: bbc0b7510519b814c807cac87ad51b4c, type: 2}
+    - target: {fileID: 6873455623609147223, guid: 5e92e52e008ac05439d62cc967d164c0, type: 3}
+      propertyPath: 'sequenceArray.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d0a94b8aa1e1968468b4f9e4066084ce, type: 2}
+    - target: {fileID: 6873455623609147223, guid: 5e92e52e008ac05439d62cc967d164c0, type: 3}
+      propertyPath: 'sequenceArray.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f794c4591e48dd34490f53b0631aaeef, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
