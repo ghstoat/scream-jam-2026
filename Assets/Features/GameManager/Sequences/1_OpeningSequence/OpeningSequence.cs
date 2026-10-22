@@ -10,6 +10,11 @@ public class OpeningSequence : Sequence
     [SerializeField] PlayerDialogue ejectClue1;
     [SerializeField] PlayerDialogue ejectClue2;
 
+    [SerializeField] PlayerDialogue ejectingAlarm;
+    [SerializeField] PlayerDialogue failedEjectAlarm;
+
+
+
     [SerializeField] PlayerDialogue failedEject;
 
     [SerializeField] AudioClip openingMusic;
@@ -49,7 +54,7 @@ public class OpeningSequence : Sequence
 
         CockpitManager.Instance.SetState(CockpitState.Alarm);
 
-        CockpitManager.Instance.ShakeCockpit(1f, 4f);
+        CockpitManager.Instance.ShakeCockpit(1f, 3f);
 
         yield return new WaitForSeconds(5);
 
@@ -76,7 +81,7 @@ public class OpeningSequence : Sequence
         TutorialManager.Instance.OpenTutorial(Tutorial.Interact);
         yield return new WaitForSeconds(0.1f);
 
-        MusicManager.Instance.PlayMusic(openingMusic, .2f, 0, .5f, true, true);
+        MusicManager.Instance.PlayMusic(openingMusic, 1f, 0, .5f, true, true);
 
         ejectPressed = false;
         CockpitManager.Instance.EjectButton.Lock(false);
@@ -122,10 +127,16 @@ public class OpeningSequence : Sequence
             yield return null;
         }
 
-        PlayerDialogueManager.Instance.InterruptDialogue(); 
+        PlayerDialogueManager.Instance.InterruptDialogue();
+
+        CockpitManager.Instance.ForceDialogue(ejectingAlarm);
+
+
+        yield return new WaitForSeconds(2f);
+
+        CockpitManager.Instance.ForceDialogue(failedEjectAlarm);
 
         yield return new WaitForSeconds(3f);
-
 
         PlayerDialogueManager.Instance.ForceDialogue(failedEject);
 
@@ -152,6 +163,7 @@ public class OpeningSequence : Sequence
             yield return null;
         }
 
+        CockpitManager.Instance.InterruptDialogue();
         CockpitManager.Instance.FlashMachine.PumpLever.Lock(false);
 
 

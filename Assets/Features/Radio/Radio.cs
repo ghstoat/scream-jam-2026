@@ -28,6 +28,7 @@ public class Radio : MonoBehaviour
     [Header("References")]
     [SerializeField] AudioSource dialogueSource;
     [SerializeField] AudioSource newMessageSource;
+    [SerializeField] PlayerDialogue incomingMessageAlarm;
     [SerializeField] AudioSource wrongFreq;
     [SerializeField] AudioSource rightFreq;
     [SerializeField] AudioSource onRightFreqSource;
@@ -41,6 +42,7 @@ public class Radio : MonoBehaviour
     [SerializeField] float characterDelay = 0.04f;
 
     private Coroutine dialogueRoutine;
+    private Coroutine incomingMessageRoutine;
 
     private void Start()
     {
@@ -67,6 +69,20 @@ public class Radio : MonoBehaviour
     private void OnMessageRecieved()
     {
         newMessageSource.Play();
+        incomingMessageRoutine = StartCoroutine(IncomingMessageRoutine());
+    }
+
+    private IEnumerator IncomingMessageRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            CockpitManager.Instance.ForceDialogue(incomingMessageAlarm);
+
+            yield return new WaitForSeconds(10f);
+
+        }
+
     }
 
     private void OnRightFreq()
@@ -98,6 +114,12 @@ public class Radio : MonoBehaviour
                 talkButton.Lock(false);
                 break;
             case RadioState.Outgoing:
+                if (incomingMessageRoutine != null)
+                {
+                    StopCoroutine(incomingMessageRoutine);
+                    incomingMessageRoutine = null;
+                }
+
                 incomingLight.SetColor(Color.green);
                 incomingLight.SetState(LightStates.On);
                 talkButtonPressed.SetActive(true);

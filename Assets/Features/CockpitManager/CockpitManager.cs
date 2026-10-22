@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -20,14 +22,22 @@ public class CockpitManager : MonoBehaviour
     [SerializeField] Animator lightAnimator;
 
     [Header("Self Destruct")]
-    [SerializeField] AudioClip sixtySecondsLeft;
-    [SerializeField] AudioClip thirtySecondsLeft;
-    [SerializeField] AudioClip fifteenSecondsLeft;
-    [SerializeField] AudioClip tenSecondsLeft;
-    [SerializeField] AudioClip selfDestructImminent;
+    [SerializeField] PlayerDialogue sixtySecondsLeft;
+    [SerializeField] PlayerDialogue thirtySecondsLeft;
+    [SerializeField] PlayerDialogue fifteenSecondsLeft;
+    [SerializeField] PlayerDialogue tenSecondsLeft;
+    [SerializeField] PlayerDialogue selfDestructImminent;
 
     [SerializeField] AudioSource selfDestructVoice;
+    public AudioSource AlarmVoiceSource => selfDestructVoice;
     [SerializeField] float selfDestructDuration = 60;
+
+    [Header("Alarm Voice")]
+    private PlayerDialogue currentDialogue;
+    private Queue<PlayerDialogue> dialogueQueue = new Queue<PlayerDialogue>();
+    private Coroutine dialogueRoutine;
+    [SerializeField] TextMeshProUGUI captionText;
+
 
     [Header("Systems In Cockpit")]
     [SerializeField] Light mainLight;
@@ -75,7 +85,11 @@ public class CockpitManager : MonoBehaviour
 
     private void Start()
     {
-        Init();
+        Init(); 
+        
+        currentDialogue = null;
+        dialogueQueue.Clear();
+        ClearCaptions();
     }
 
 
@@ -95,6 +109,12 @@ public class CockpitManager : MonoBehaviour
             default: EnterDefault(); break;
 
         }
+    }
+
+    private void Update()
+    {
+        if (dialogueRoutine == null && dialogueQueue.Count > 0) dialogueRoutine = StartCoroutine(DialogueRoutine());
+
     }
 
     private void Init()
@@ -221,8 +241,7 @@ public class CockpitManager : MonoBehaviour
     {
         float timer = selfDestructDuration;
 
-        selfDestructVoice.clip = thirtySecondsLeft;
-        selfDestructVoice.Play();
+        QueueDialogue(sixtySecondsLeft);
 
         int stage = 0;
 
@@ -242,28 +261,27 @@ public class CockpitManager : MonoBehaviour
                     if (timer < 30)
                     {
                         stage++;
-                        selfDestructVoice.clip = thirtySecondsLeft;
+                        QueueDialogue(thirtySecondsLeft);
                     }
                     break;
                 case 1:
                     if (timer < 15)
                     {
                         stage++;
-                        selfDestructVoice.clip = fifteenSecondsLeft;
+                        QueueDialogue(fifteenSecondsLeft);
                     }
                     break;
                 case 2:
                     if (timer < 10)
                     {
                         stage++;
-                        selfDestructVoice.clip = tenSecondsLeft;
+                        QueueDialogue(tenSecondsLeft);
                     }
                     break;
                 default:
                     if (!selfDestructVoice.isPlaying)
                     {
-                        selfDestructVoice.clip = selfDestructImminent;
-                        selfDestructVoice.Play();
+                        QueueDialogue(selfDestructImminent);
                     }
                     break;
 
@@ -278,5 +296,150 @@ public class CockpitManager : MonoBehaviour
 
         HealthManager.Instance.Die(Death.SelfDestruct);
     }
+    #endregion
+
+
+    #region alarm voice
+
+    public void QueueDialogue(PlayerDialogue dialogue)
+    {
+        if (currentDialogue != null)
+        {
+            if (currentDialogue == dialogue) return;
+        }
+
+        foreach (PlayerDialogue p in dialogueQueue)
+        {
+            if (p == dialogue) return;
+        }
+
+        dialogueQueue.Enqueue(dialogue);
+    }
+
+    public void ForceDialogue(PlayerDialogue dialogue)
+    {
+        if (currentDialogue != null)
+        {
+            if (currentDialogue == dialogue) return;
+        }
+
+
+        Queue<PlayerDialogue> newQueue = new Queue<PlayerDialogue>();
+        newQueue.Enqueue(dialogue);
+
+        foreach (PlayerDialogue queuedDialogue in dialogueQueue)
+        {
+            newQueue.Enqueue(queuedDialogue);
+        }
+
+        dialogueQueue = newQueue;
+
+        InterruptDialogue();
+    }
+
+    public void InterruptDialogue()
+    {
+
+        if (selfDestructVoice.isPlaying) selfDestructVoice.Stop();
+        selfDestructVoice.clip = null;
+
+        if (dialogueRoutine != null) StopCoroutine(dialogueRoutine);
+        dialogueRoutine = null;
+
+        ClearCaptions();
+
+        bool ended = false;
+        if (currentDialogue != null) ended = true;
+
+        bool prio = false;
+        if (currentDialogue != null) prio = currentDialogue.priority;
+
+        currentDialogue = null;
+
+    }
+    private IEnumerator DialogueRoutine()
+    {
+
+        captionText.maxVisibleCharacters = 0;
+
+        currentDialogue = dialogueQueue.Dequeue();
+        DialogueLine[] lines = currentDialogue.GetLines();
+
+        foreach (DialogueLine line in lines)
+        {
+            float lineDuration = 0.4f;
+
+            if (line.voiceline != null)
+            {
+                lineDuration += line.voiceline.length;
+                selfDestructVoice.clip = line.voiceline;
+                selfDestructVoice.Play();
+            }
+            else
+            {
+                lineDuration += EstimateDialogueLength(line.text);
+            }
+
+            captionText.gameObject.SetActive(true);
+            captionText.text = line.text;
+            captionText.maxVisibleCharacters = 0;
+
+            captionText.ForceMeshUpdate();
+
+            int characterCount = captionText.textInfo.characterCount;
+
+            for (int i = 1; i <= characterCount; i++)
+            {
+
+                captionText.maxVisibleCharacters = i;
+
+                yield return new WaitForSeconds(0.04f);
+            }
+
+
+            float typingDuration = captionText.textInfo.characterCount * 0.04f;
+
+            float remainingDuration = lineDuration - typingDuration;
+
+            if (remainingDuration > 0f)
+            {
+                yield return new WaitForSeconds(remainingDuration);
+            }
+
+
+            ClearCaptions();
+
+        }
+
+        yield return new WaitForSeconds(0.04f);
+
+        bool prio = currentDialogue.priority;
+
+        currentDialogue = null;
+
+        dialogueRoutine = null;
+    }
+
+
+    private void ClearCaptions()
+    {
+        captionText.text = "";
+        captionText.maxVisibleCharacters = 0;
+        captionText.gameObject.SetActive(false);
+    }
+
+    private float EstimateDialogueLength(string sentence)
+    {
+        string[] words = sentence.Split(new char[] { ' ', '\t', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+        int wordCount = words.Length;
+
+        float wordsPerSecond = 200 / 60f;
+        float readTimeSeconds = wordCount / wordsPerSecond;
+
+        return readTimeSeconds;
+    }
+
+
+
     #endregion
 }

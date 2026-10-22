@@ -66,6 +66,7 @@ MonoBehaviour:
   powerLight: {fileID: 4506168533305088059}
   dialogueSource: {fileID: 4047278190585432745}
   newMessageSource: {fileID: 5143023060581257131}
+  incomingMessageAlarm: {fileID: 11400000, guid: 418fa5ebf6e0b2d4abb5530899361bad, type: 2}
   wrongFreq: {fileID: 703533846547487945}
   rightFreq: {fileID: 1618840611758549699}
   onRightFreqSource: {fileID: 9002890777286679998}
@@ -2247,17 +2248,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5654173293340538862}
-  m_LocalRotation: {x: -0.050734233, y: 0.17022206, z: 0.039872523, w: 0.98329073}
-  m_LocalPosition: {x: 0, y: 0, z: -0.8}
+  m_LocalRotation: {x: 0.0977345, y: 0.2127259, z: -0.0009366672, w: 0.97221124}
+  m_LocalPosition: {x: 0, y: 0, z: -2.46}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 807318789143891056}
   m_Father: {fileID: 3756592836238975119}
-  m_LocalEulerAnglesHint: {x: -6.508, y: 19.442, z: 3.528}
+  m_LocalEulerAnglesHint: {x: 10.978, y: 24.907, z: 2.321}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.36, y: -0.89}
+  m_AnchoredPosition: {x: 0.27, y: -0.32}
   m_SizeDelta: {x: 1059, y: 596}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &822743545226723617

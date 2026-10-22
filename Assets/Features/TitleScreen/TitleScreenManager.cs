@@ -17,6 +17,9 @@ public class TitleScreenManager : MonoBehaviour
 
     [SerializeField] float typewriterSpeed = 0.04f;
 
+    [SerializeField] AudioClip crashSFX;
+    [SerializeField] AudioClip missileSFX;
+    [SerializeField] AudioClip explosionSFX;
     private AsyncOperation asyncLoad;
     [SerializeField] string[] openingDialogue;
 
@@ -30,6 +33,8 @@ public class TitleScreenManager : MonoBehaviour
 
     private void Start()
     {
+        MusicManager.Instance.StopMusic(0.5f);
+
         saveFound = false;  
         asyncLoad = SceneManager.LoadSceneAsync("Mech", LoadSceneMode.Single);
         asyncLoad.allowSceneActivation = false;
@@ -190,7 +195,14 @@ public class TitleScreenManager : MonoBehaviour
 
     private IEnumerator CrashRoutine()
     {
+        SFXManager.Instance.PlaySFX(missileSFX, 1, false);
+
+        yield return new WaitForSeconds(.5f);
+
         mechAnimator.SetTrigger("CRASH");
+
+        SFXManager.Instance.PlaySFX(crashSFX, 1, false);
+        SFXManager.Instance.PlaySFX(explosionSFX, 1, false);
 
         float fadeDuration = 1f;
         float timer = 0f;
@@ -204,7 +216,7 @@ public class TitleScreenManager : MonoBehaviour
 
         yield return new WaitForSeconds(2);
 
-        fadeDuration = .5f;
+        fadeDuration = .2f;
         timer = 0f;
 
         while (timer < fadeDuration)

@@ -62,7 +62,8 @@ public class SurviveSequence : Sequence
 
         TutorialManager.Instance.OpenTutorial(Tutorial.Oxygen);
 
-        yield return new WaitForSeconds(5f);
+
+        yield return new WaitForSeconds(10f);
 
         HealthManager.Instance.LockOxygen(false);
 
@@ -100,7 +101,7 @@ public class SurviveSequence : Sequence
 
         TutorialManager.Instance.OpenTutorial(Tutorial.Heater);
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(5f);
 
         HealthManager.Instance.LockTemp(false);
 
@@ -140,7 +141,7 @@ public class SurviveSequence : Sequence
 
         PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Vent.transform, 1f, 1f);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(5f);
 
         TutorialManager.Instance.OpenTutorial(Tutorial.Vent);
 

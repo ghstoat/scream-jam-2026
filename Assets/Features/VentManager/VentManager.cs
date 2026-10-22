@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class VentManager : PoweredSystem
@@ -18,6 +19,10 @@ public class VentManager : PoweredSystem
     
 
     public bool opening { get; private set; } = false;
+
+
+    [SerializeField] PlayerDialogue unidentifiedObject;
+    private Coroutine objectInVentRoutine;
 
     public static VentManager Instance { get; private set; }
     private void Awake()
@@ -71,4 +76,36 @@ public class VentManager : PoweredSystem
         opening = false;
     }
 
+    public void SomethingInVent(bool yes)
+    {
+        if (yes)
+        {
+            if (objectInVentRoutine == null)
+            {
+                objectInVentRoutine = StartCoroutine(ObjectInVentRoutine());
+            }
+        }
+        else
+        {
+            if (objectInVentRoutine != null)
+            {
+                StopCoroutine(objectInVentRoutine);
+                objectInVentRoutine = null;
+            }
+        }
+    }
+
+    private IEnumerator ObjectInVentRoutine()
+    {
+
+        while (true)
+        {
+
+            CockpitManager.Instance.ForceDialogue(unidentifiedObject);
+           
+
+            yield return new WaitForSeconds(3f);
+        }
+
+    }
 }

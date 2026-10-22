@@ -64,7 +64,7 @@ public class TemperatureManager : PoweredSystem
         {
             intTemp = Mathf.MoveTowards(intTemp, targetTemp, tempChangeSpeed * Time.deltaTime);
         }
-
+            
         float tempRatio = 1 - Mathf.InverseLerp(minLivableTemp, maxLivableTemp, intTemp);
 
         CockpitManager.Instance.MainLight.colorTemperature = Mathf.Lerp(minLightTemp, maxLightTemp, tempRatio);

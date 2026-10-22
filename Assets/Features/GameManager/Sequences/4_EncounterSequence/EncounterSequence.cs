@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(fileName = "4_EncounterSequence", menuName = "ScreamJam/Sequence/4_EncounterSequence")]
 public class EncounterSequence : Sequence
@@ -16,6 +17,13 @@ public class EncounterSequence : Sequence
 
     [SerializeField] Conversation commandGirl;
     [SerializeField] PlayerDialogue commandLost;
+    [SerializeField] Conversation fakeCommand;
+
+    [SerializeField] PlayerDialogue ventGirl;
+    [SerializeField] PlayerDialogue girlBlocked;
+    [SerializeField] PlayerDialogue girlScare;
+
+    private AsyncOperation asyncLoad;
 
     public override void Init()
     {
@@ -29,6 +37,10 @@ public class EncounterSequence : Sequence
     private IEnumerator Routine()
     {
         SubscribeToEvents();
+        asyncLoad = SceneManager.LoadSceneAsync("WinScreen", LoadSceneMode.Single);
+        asyncLoad.allowSceneActivation = false;
+
+        bool reservoirEmptied = false;
 
         PlayerDialogueManager.Instance.ignoreNonPriority = false;
 
@@ -48,7 +60,18 @@ public class EncounterSequence : Sequence
 
         MissionManager.Instance.SetMission("Investigate");
 
-        while (!flashed) yield return null;
+        while (!flashed)
+        {
+            if (PowerReservoir.Instance.PowerEmpty && !reservoirEmptied)
+            {
+                reservoirEmptied = true;
+                TutorialManager.Instance.OpenTutorial(Tutorial.EmptyReservoir);
+                yield return new WaitForSeconds(0.1f);
+            }
+
+
+            yield return null;
+        }
 
         flashed = false;
 
@@ -68,7 +91,7 @@ public class EncounterSequence : Sequence
 
         flashed = false;
 
-        PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Screen.transform, 0.2f, 2f, true);
+        PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Screen.transform, 0.2f, 4f, true);
 
         GhostGirlManager.Instance.Jump();
 
@@ -77,8 +100,9 @@ public class EncounterSequence : Sequence
         dialogueEnded = false;
         while (!dialogueEnded) yield return null;
 
+        RadioManager.Instance.ReceiveMessage(commandGirl);        
+        
         radioDialogueStarted = false;
-        RadioManager.Instance.ReceiveMessage(commandGirl);
         PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Radio.IncomingLight.transform, 0.2f, 1f, true);
 
         yield return new WaitForSeconds(0.5f);
@@ -89,7 +113,7 @@ public class EncounterSequence : Sequence
         dialogueEnded = false;
         while (!dialogueEnded) yield return null;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
         PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Screen.transform, 0.2f, 1f, false);
 
@@ -103,19 +127,82 @@ public class EncounterSequence : Sequence
 
         MissionManager.Instance.SetMission("Respond to Command");
 
-        while (!radioDialogueStarted)yield return null;
-       
+        while (!radioDialogueStarted) yield return null;
+
         MissionManager.Instance.ClearMission();
 
-        radioDialogueEnded = false; 
+        radioDialogueEnded = false;
+
         while (!radioDialogueEnded) yield return null;
 
+
+
+
+        RadioManager.Instance.ReceiveMessage(fakeCommand);
+
+        radioDialogueStarted = false;
+        radioDialogueEnded = false;
         PlayerDialogueManager.Instance.ForceDialogue(commandLost);
 
+        dialogueEnded = false;
+        while (!dialogueEnded) yield return null;
+
+        PlayerDialogueManager.Instance.ignoreNonPriority = false;
         MissionManager.Instance.SetMission("Respond to Command");
 
+        while (!radioDialogueStarted) yield return null;
+
+        PlayerDialogueManager.Instance.ignoreNonPriority = true;
+
+        while (!radioDialogueEnded) yield return null;
+
+        yield return new WaitForSeconds(1);
+
+        PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Vent.transform, 0.2f, 1f, false);
+
+        VentManager.Instance.SomethingInVent(true);
+
+        //play ghost girl entering vent sfx
+
+
+
+        PlayerDialogueManager.Instance.ForceDialogue(ventGirl);
+
+        while (!VentManager.Instance.Closed)
+        {
+            if (PowerReservoir.Instance.PowerEmpty && !reservoirEmptied)
+            {
+                reservoirEmptied = true;
+                TutorialManager.Instance.OpenTutorial(Tutorial.EmptyReservoir);
+                yield return new WaitForSeconds(0.1f);
+            }
+
+
+            yield return null;
+        }
+
+        //play banging sfx
+
+        yield return new WaitForSeconds(10);
+        VentManager.Instance.SomethingInVent(false);
+
+
+        while (VentManager.Instance.Closed) yield return null;
+
+        PlayerDialogueManager.Instance.ForceDialogue(girlBlocked);
+
+        yield return new WaitForSeconds(15);
+
+        GhostGirl2Manager.Instance.Jump();
+        PlayerDialogueManager.Instance.ForceDialogue(girlScare);
+
+        yield return new WaitForSeconds(1);
+
+        asyncLoad.allowSceneActivation = true;
 
         UnsubscribeToEvents();
+
+
     }
 
     private void SubscribeToEvents()

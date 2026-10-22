@@ -12,8 +12,24 @@ public class FlashMachine : MonoBehaviour
     [SerializeField] FillBar powerBar;
     [SerializeField] LightBulb powerLight;
 
+    [SerializeField] AudioSource flashSource;
+    [SerializeField] AudioSource flashChargedSource;
+
     [SerializeField] PlayerDialogue flashNoPower;
     [SerializeField] PlayerDialogue flashNoCharge;
+
+    private void Start()
+    {
+        FlashManager.Instance.onFlash.AddListener(OnFlash);
+        FlashManager.Instance.onCharged.AddListener(OnCharged);
+
+    }
+
+    private void OnDestroy()
+    {
+        FlashManager.Instance.onCharged.RemoveListener(OnCharged);
+
+    }
 
     private void Update()
     {
@@ -50,4 +66,14 @@ public class FlashMachine : MonoBehaviour
 
         FlashManager.Instance.UseFlash();
     }
+
+    private void OnFlash()
+    {
+        flashSource.Play();
+    }
+    private void OnCharged()
+    {
+        flashChargedSource.Play();
+    }
+    
 }

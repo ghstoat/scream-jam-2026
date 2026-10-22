@@ -19,3 +19,7 @@ MonoBehaviour:
   missingGirl: {fileID: 11400000, guid: b3f9b603594556146b8b394ea39bc98d, type: 2}
   commandGirl: {fileID: 11400000, guid: ea691c8e46952504bbcbcb309dab30cd, type: 2}
   commandLost: {fileID: 11400000, guid: 34eaa009d6e65544b9b0ae06da6d81ca, type: 2}
+  fakeCommand: {fileID: 11400000, guid: 6f5f117a81cc13f4c9333287bd209eb9, type: 2}
+  ventGirl: {fileID: 11400000, guid: 264c8b5673998224987aba39e368dabe, type: 2}
+  girlBlocked: {fileID: 11400000, guid: 18d0b8eeda03e87449f0964191b7ba1e, type: 2}
+  girlScare: {fileID: 11400000, guid: 0f3358f0fdd0ef64889a3e73c249ff7c, type: 2}

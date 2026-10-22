@@ -464,12 +464,13 @@ MonoBehaviour:
   m_text: 'You are currently feeling SICK.
 
 
-    Allocating power to the vent allows you to
-
-    OPEN or CLOSE the VENT.
+    Allocate POWER to the ventilation system
 
 
-    An OPEN VENT greatly improves the cockpit''s air quality.'
+    Then PULL the LEVER to open or close the vent.
+
+
+    An OPEN VENT greatly improves the cockpit''s air quality and does NOT affect temperature!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
   m_sharedMaterial: {fileID: 4319321746800169697, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
@@ -743,7 +744,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Move your cursor to the edge of the screen to <i>look around</i>.
+  m_text: 'Move your cursor to the edge of the screen to <i>look around</i>.
+
+
+    You can change camera settings in the PAUSE screen.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
   m_sharedMaterial: {fileID: 4319321746800169697, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}

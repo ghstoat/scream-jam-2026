@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,32 +15,39 @@ public enum Death
 public class HealthManager : MonoBehaviour
 {
     [Header("Oxygen")]
+    private bool suffocating;
     [SerializeField] float maxTimeWithoutOxygen = 30f;
     private float oxygenTimer;
     [SerializeField] CanvasGroup oxygenCanvasGroup;
     [SerializeField] PlayerDialogue lightheaded;
     private bool lockOxygen = false;
-    
-    [Header("Oxygen")]
+
+    [Header("Toxic")]
+    private bool sickBool;
     [SerializeField] float maxTimeInToxic = 30f;
     private float sickTimer;
     [SerializeField] CanvasGroup sickCanvasGroup;
     [SerializeField] PlayerDialogue sick;
     private bool lockToxicity = false;
 
-
     [Header("Temperature")]
     [SerializeField] float maxTimeBadTemp = 30f;
     [SerializeField] float timeBeforeTempDialogue = 15f;
+
+    private bool overheating;
+    private bool freezing;
+
     private float freezeTimer;
     private float overheatingTimer;
 
+    [SerializeField] CanvasGroup freezingCanvasGroup;
+    [SerializeField] CanvasGroup overheatingCanvasGroup;
 
     private bool freezeDialoguePlayed = false;
     private bool overheatingDialoguePlayed = false;
 
-    [SerializeField] PlayerDialogue overheating;
-    [SerializeField] PlayerDialogue freezing;
+    [SerializeField] PlayerDialogue overheatingDialogue;
+    [SerializeField] PlayerDialogue freezingDialogue;
 
     private bool lockTemp = false;
 
@@ -49,10 +55,11 @@ public class HealthManager : MonoBehaviour
     [SerializeField] GameObject deathScreen;
     [SerializeField] TextMeshProUGUI deathMessageText;
     [SerializeField] Dictionary<Death, string> deathMessageDict;
-    public bool dead {  get; private set; }
 
+    public bool dead { get; private set; }
 
     public static HealthManager Instance { get; private set; }
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -68,7 +75,8 @@ public class HealthManager : MonoBehaviour
 
     public void Die(Death death)
     {
-        if (dead) return; 
+        if (dead) return;
+
         TimeManager.Instance.PauseTime(true);
 
         dead = true;
@@ -95,7 +103,10 @@ public class HealthManager : MonoBehaviour
 
     private void Update()
     {
+        if (dead) return;
+
         HandleOxygen();
+        HandleToxicity();
         HandleTemp();
     }
 
@@ -106,33 +117,40 @@ public class HealthManager : MonoBehaviour
 
     public void HandleOxygen()
     {
-        bool suffocating = false;
+        suffocating = false;
 
         if (!lockOxygen) suffocating = OxygenManager.Instance.oxygen <= 0;
 
         if (suffocating)
         {
-            if (oxygenTimer == 0) PlayerDialogueManager.Instance.QueueDialogue(lightheaded);
+            if (oxygenTimer == 0)
+                PlayerDialogueManager.Instance.QueueDialogue(lightheaded);
 
             oxygenTimer += Time.deltaTime;
+
             if (oxygenTimer > maxTimeWithoutOxygen)
-            {
                 Die(Death.Oxygen);
-            }
 
-
-
-            oxygenCanvasGroup.alpha = oxygenTimer / maxTimeWithoutOxygen;
+            oxygenCanvasGroup.alpha =
+                Mathf.Clamp01(oxygenTimer / maxTimeWithoutOxygen);
         }
         else if (oxygenTimer > 0)
         {
-
             oxygenTimer -= Time.deltaTime;
 
-            if (oxygenTimer <= 0) oxygenCanvasGroup.alpha = 0;
-            else oxygenCanvasGroup.alpha = oxygenTimer / maxTimeWithoutOxygen;
+            if (oxygenTimer <= 0)
+            {
+                oxygenTimer = 0;
+                oxygenCanvasGroup.alpha = 0;
+            }
+            else
+            {
+                oxygenCanvasGroup.alpha =
+                    Mathf.Clamp01(oxygenTimer / maxTimeWithoutOxygen);
+            }
         }
     }
+
     public void LockToxicity(bool locked)
     {
         lockToxicity = locked;
@@ -140,33 +158,37 @@ public class HealthManager : MonoBehaviour
 
     public void HandleToxicity()
     {
-        bool sickBool = false;
+        sickBool = false;
 
-        if (!lockToxicity) sickBool = VentManager.Instance.ToxicityFull;
-
-
+        if (!lockToxicity || freezing || overheating) sickBool = VentManager.Instance.ToxicityFull;
 
         if (sickBool)
         {
-            if (sickTimer == 0) PlayerDialogueManager.Instance.QueueDialogue(sick);
+            if (sickTimer == 0)
+                PlayerDialogueManager.Instance.QueueDialogue(sick);
 
             sickTimer += Time.deltaTime;
+
             if (sickTimer > maxTimeInToxic)
-            {
                 Die(Death.Toxicity);
-            }
 
-
-
-            sickCanvasGroup.alpha = sickTimer / maxTimeInToxic;
+            sickCanvasGroup.alpha =
+                Mathf.Clamp01(sickTimer / maxTimeInToxic);
         }
         else if (sickTimer > 0)
         {
-
             sickTimer -= Time.deltaTime;
 
-            if (sickTimer <= 0) sickCanvasGroup.alpha = 0;
-            else sickCanvasGroup.alpha = sickTimer / maxTimeInToxic;
+            if (sickTimer <= 0)
+            {
+                sickTimer = 0;
+                sickCanvasGroup.alpha = 0;
+            }
+            else
+            {
+                sickCanvasGroup.alpha =
+                    Mathf.Clamp01(sickTimer / maxTimeInToxic);
+            }
         }
     }
 
@@ -183,65 +205,79 @@ public class HealthManager : MonoBehaviour
 
     public void HandleFreezing()
     {
-        bool freezing = TemperatureManager.Instance.Freezing;
+        bool isFreezing = TemperatureManager.Instance.Freezing;
 
-        if (lockTemp) freezing = false;
+        if (lockTemp)
+            isFreezing = false;
 
-        if (freezing)
+        if (isFreezing)
         {
-
             freezeTimer += Time.deltaTime;
-            if (freezeTimer > maxTimeBadTemp)
-            {
-                Die(Death.Freezing);
-            }
 
-            if (!freezeDialoguePlayed && freezeTimer > timeBeforeTempDialogue)
+            if (freezeTimer > maxTimeBadTemp)
+                Die(Death.Freezing);
+
+            if (!freezeDialoguePlayed &&
+                freezeTimer > timeBeforeTempDialogue)
             {
                 freezeDialoguePlayed = true;
-                PlayerDialogue dialogue = this.freezing;
 
-                PlayerDialogueManager.Instance.QueueDialogue(dialogue);
+                PlayerDialogueManager.Instance.QueueDialogue(freezingDialogue);
             }
-            
+
+            freezingCanvasGroup.alpha =
+                Mathf.Clamp01(freezeTimer / maxTimeBadTemp);
         }
         else if (freezeTimer > 0)
         {
-          
-            if (freezeDialoguePlayed == true) freezeDialoguePlayed = false;
+            if (freezeDialoguePlayed)
+                freezeDialoguePlayed = false;
+
             freezeTimer = 0;
+            freezingCanvasGroup.alpha = 0;
+        }
+        else
+        {
+            freezingCanvasGroup.alpha = 0;
         }
     }
 
     public void HandleOverheating()
     {
-        bool overheating = TemperatureManager.Instance.Overheating;
+        bool isOverheating = TemperatureManager.Instance.Overheating;
 
-        if (lockTemp) overheating = false;
+        if (lockTemp)
+            isOverheating = false;
 
-        if (overheating)
+        if (isOverheating)
         {
-
             overheatingTimer += Time.deltaTime;
-            if (overheatingTimer > maxTimeBadTemp)
-            {
-                Die(Death.Overheating);
-            }
 
-            if (!overheatingDialoguePlayed && overheatingTimer > timeBeforeTempDialogue)
+            if (overheatingTimer > maxTimeBadTemp)
+                Die(Death.Overheating);
+
+            if (!overheatingDialoguePlayed &&
+                overheatingTimer > timeBeforeTempDialogue)
             {
                 overheatingDialoguePlayed = true;
-                PlayerDialogue dialogue = this.overheating;
 
-                PlayerDialogueManager.Instance.QueueDialogue(dialogue);
+                PlayerDialogueManager.Instance.QueueDialogue(overheatingDialogue);
             }
 
+            overheatingCanvasGroup.alpha =
+                Mathf.Clamp01(overheatingTimer / maxTimeBadTemp);
         }
         else if (overheatingTimer > 0)
         {
+            if (overheatingDialoguePlayed)
+                overheatingDialoguePlayed = false;
 
-            if (overheatingDialoguePlayed == true) overheatingDialoguePlayed = false;
             overheatingTimer = 0;
+            overheatingCanvasGroup.alpha = 0;
+        }
+        else
+        {
+            overheatingCanvasGroup.alpha = 0;
         }
     }
 }

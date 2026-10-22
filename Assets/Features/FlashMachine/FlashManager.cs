@@ -16,6 +16,9 @@ public class FlashManager : PoweredSystem
 
     [SerializeField] int numOfFlashes;
     [SerializeField] float timeBetweenFlashes;
+
+    public UnityEvent onCharged;
+
     public UnityEvent onFlash;
 
     private Coroutine flashRoutine;
@@ -48,6 +51,8 @@ public class FlashManager : PoweredSystem
     {
         storedCharge += (float)currentPower * chargePerPower;
         storedCharge = Mathf.Clamp(storedCharge, 0, chargeRequiredToFlash);
+
+        if (storedCharge >= chargeRequiredToFlash) onCharged?.Invoke();
     }
 
     public void UseFlash()
