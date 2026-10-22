@@ -58,10 +58,22 @@ public class EncounterSequence : Sequence
         dialogueEnded = false;
         while (!dialogueEnded) yield return null;
 
-        MissionManager.Instance.SetMission("Investigate");
+        MissionManager.Instance.SetMission("Investigate the strange figure in the camera");
+
+        float timeBeforeClue = 120;
 
         while (!flashed)
         {
+            if (timeBeforeClue > 0)
+            {
+                timeBeforeClue -= Time.deltaTime;
+
+                if (timeBeforeClue <= 0)
+                {
+                    MissionManager.Instance.SetMission("Use the flash to investigate the strange figure in the camera");
+
+                }
+            }
             if (PowerReservoir.Instance.PowerEmpty && !reservoirEmptied)
             {
                 reservoirEmptied = true;
@@ -91,7 +103,7 @@ public class EncounterSequence : Sequence
 
         flashed = false;
 
-        PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Screen.transform, 0.2f, 4f, true);
+        PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Screen.transform, 0.2f, 8f, true);
 
         GhostGirlManager.Instance.Jump();
 
@@ -105,8 +117,8 @@ public class EncounterSequence : Sequence
         radioDialogueStarted = false;
         PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Radio.IncomingLight.transform, 0.2f, 1f, true);
 
-        yield return new WaitForSeconds(0.5f);
-        GhostGirlManager.Instance.Hidden();
+        yield return new WaitForSeconds(1f);
+        GhostGirlManager.Instance.Hidden(); 
 
         PlayerDialogueManager.Instance.ForceDialogue(radioJump2);
 
@@ -196,7 +208,7 @@ public class EncounterSequence : Sequence
         GhostGirl2Manager.Instance.Jump();
         PlayerDialogueManager.Instance.ForceDialogue(girlScare);
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(4);
 
         asyncLoad.allowSceneActivation = true;
 

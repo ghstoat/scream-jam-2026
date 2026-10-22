@@ -60,6 +60,7 @@ public class CockpitManager : MonoBehaviour
     public PowerSwitcher PowerSwitcher => powerSwitcher;
     public Button EjectButton => ejectButton;
 
+    private bool selfDestructLocked = false;
 
     private const string DEFAULT = "DEFAULT";
     private const string ALARM = "ALARM";
@@ -85,8 +86,9 @@ public class CockpitManager : MonoBehaviour
 
     private void Start()
     {
-        Init(); 
-        
+        Init();
+        selfDestructLocked = false;
+
         currentDialogue = null;
         dialogueQueue.Clear();
         ClearCaptions();
@@ -237,6 +239,11 @@ public class CockpitManager : MonoBehaviour
         selfDestructRoutine = null;
     }
 
+    public void LockSelfDestruct(bool locked)
+    {
+        selfDestructLocked = locked;
+    }
+
     private IEnumerator SelfDestructRoutine()
     {
         float timer = selfDestructDuration;
@@ -245,7 +252,7 @@ public class CockpitManager : MonoBehaviour
 
         int stage = 0;
 
-        while (timer > 0)
+        while (timer > -20 || selfDestructLocked)
         {
             if (state != CockpitState.Alarm)
             {

@@ -15,4 +15,4 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: Command? Do you copy?
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: e350beb70acb09d4797c9b4424d32e61, type: 3}

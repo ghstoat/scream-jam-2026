@@ -15,4 +15,4 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: Is... is she gone?
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 399ad9eaf937d774986cf6f6d6a64108, type: 3}

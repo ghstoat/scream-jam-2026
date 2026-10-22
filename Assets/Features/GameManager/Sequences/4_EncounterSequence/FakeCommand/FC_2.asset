@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RadioDialogue
   lines:
   - text: 'Yes. Command copies. '
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 6c0c1a97e18ed094c9615371b20f07d2, type: 3}
   - text: 'We have a new order, direct from the top. '
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 15ef25b0895641e4f9154a71073d2bdd, type: 3}
   frequency: 185
   playerDialogue: {fileID: 11400000, guid: bdf35f1de2424144780147e53645b571, type: 2}

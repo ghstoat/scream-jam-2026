@@ -15,4 +15,4 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: "What are you\u2013-?"
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 3bfaa4faeeba97a4bbad0d526d96d649, type: 3}

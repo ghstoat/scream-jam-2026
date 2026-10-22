@@ -15,14 +15,14 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: Perfect.
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 68c8edcb328815a46be7a1ff785694fb, type: 3}
   - text: "I\u2019ll have to watch out for solar flares."
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 7f470501dc3013940a283c6a75798ad3, type: 3}
   - text: "They\u2019ll rapidly change the external temperatures\u2026 "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 468782ecfa19b8c448ed93a73e1b6cdf, type: 3}
   - text: "And I\u2019ll need to calibrate the heater again. "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 195319f8f5964c043aa065cb2741c9d8, type: 3}
   - text: 'Before I forget, I should open the vents too. '
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: c69ca8e6c9a224248ac6d6435b742e36, type: 3}
   - text: 'Toxic fumes are making my eyes tear.  '
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 682131d5a59b7ea46a612ba9a1282d2c, type: 3}

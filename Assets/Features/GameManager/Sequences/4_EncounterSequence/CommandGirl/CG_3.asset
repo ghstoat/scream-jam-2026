@@ -15,4 +15,4 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: Yes! She was standing outside and-
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 7f32f57de9193df449278f706ea333e8, type: 3}

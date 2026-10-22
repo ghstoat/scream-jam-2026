@@ -15,4 +15,4 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: 'Why did her frequency change? '
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 24b26012318f5a043b3d53d6b88c34d5, type: 3}

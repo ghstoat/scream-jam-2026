@@ -36,9 +36,12 @@ public class OpeningSequence : Sequence
 
         SubscribeToEvents();
 
+        yield return null;
+        NoteManager.Instance.Lock(true);
         HealthManager.Instance.LockOxygen(true);
         HealthManager.Instance.LockTemp(true); 
         HealthManager.Instance.LockToxicity(true);
+        CockpitManager.Instance.LockSelfDestruct(false);
 
         PlayerDialogueManager.Instance.ignoreNonPriority = true;
 
@@ -81,7 +84,7 @@ public class OpeningSequence : Sequence
         TutorialManager.Instance.OpenTutorial(Tutorial.Interact);
         yield return new WaitForSeconds(0.1f);
 
-        MusicManager.Instance.PlayMusic(openingMusic, 1f, 0, .5f, true, true);
+        MusicManager.Instance.PlayMusic(openingMusic, .2f, 0, 2f, true, true);
 
         ejectPressed = false;
         CockpitManager.Instance.EjectButton.Lock(false);
@@ -127,12 +130,14 @@ public class OpeningSequence : Sequence
             yield return null;
         }
 
+        CockpitManager.Instance.LockSelfDestruct(true);
+
         PlayerDialogueManager.Instance.InterruptDialogue();
 
-        CockpitManager.Instance.ForceDialogue(ejectingAlarm);
+        CockpitManager.Instance.ForceDialogue(failedEjectAlarm);
 
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2.5f);
 
         CockpitManager.Instance.ForceDialogue(failedEjectAlarm);
 
@@ -165,6 +170,7 @@ public class OpeningSequence : Sequence
 
         CockpitManager.Instance.InterruptDialogue();
         CockpitManager.Instance.FlashMachine.PumpLever.Lock(false);
+        NoteManager.Instance.Lock(false);
 
 
         MusicManager.Instance.StopMusic(.1f);

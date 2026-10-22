@@ -15,4 +15,4 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: Command! There's a girl!
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 72778c0b40d2b0a4a8d978819528f82e, type: 3}

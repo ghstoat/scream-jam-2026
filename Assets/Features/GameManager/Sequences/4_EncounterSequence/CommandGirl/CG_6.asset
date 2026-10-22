@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RadioDialogue
   lines:
   - text: 'Deep breaths, Birdie. '
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: e96edb56d58ea2e429a05edc6a2ac3b9, type: 3}
   - text: "You\u2019re likely hallucinating from carbon emissions in the mech."
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 804305e8aa50cc34187b7c5b20e8c7b3, type: 3}
   frequency: 125
   playerDialogue: {fileID: 11400000, guid: ce116628c39a31b4aa8bf827cd85df53, type: 2}

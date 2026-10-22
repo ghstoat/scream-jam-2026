@@ -15,14 +15,14 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: What?!
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: e71377e0505365945971f4fa685f9c06, type: 3}
   - text: Don't tell me the eject button is...
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: ff1793e31f426694b9c2ed8caa177ca6, type: 3}
   - text: Broken?
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 360afc6ac5f6ff94b880e5639d1f092c, type: 3}
   - text: I'm really done for now!
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 1742fd0b922b38e459cedd1a1a991530, type: 3}
   - text: "As long as there\u2019s power in the systems\u2026 "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 79f248e6357dcae4db8b28f5347ac1ac, type: 3}
   - text: "There\u2019s no stopping that self destruct! "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: f58ef3b71a54b6b4cbd40cce32714a73, type: 3}

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RadioDialogue
   lines:
   - text: A girl?
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 1b705e8f6859cb541827de6bcdee0662, type: 3}
   frequency: 125
   playerDialogue: {fileID: 11400000, guid: 0424d19a62579e5499056a7a928ac2bb, type: 2}

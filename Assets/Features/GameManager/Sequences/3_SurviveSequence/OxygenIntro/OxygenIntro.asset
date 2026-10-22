@@ -15,8 +15,8 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: "\u2026 I\u2019m so\u2026 sleepy\u2026 "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 536110d45c1df104fafaf23a4053e96e, type: 3}
   - text: "I\u2019d better get\u2026 that oxygen tank\u2026 "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 90fb85a23bec2214182dd45562a0fe3a, type: 3}
   - text: "Running\u2026 "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 94079dd0f0aa42649a62f83bb715a701, type: 3}

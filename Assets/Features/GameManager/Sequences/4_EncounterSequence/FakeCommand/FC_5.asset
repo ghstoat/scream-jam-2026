@@ -15,4 +15,4 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: "Exit\u2026 the mech? "
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: aefc83896367f454bb565a9b281c4314, type: 3}

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RadioDialogue
   lines:
   - text: 'Yes. Do not- '
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: ba880f3283fb2d84c92dc045dfba7d18, type: 3}
   - text: ...
     voiceline: {fileID: 0}
   frequency: 125

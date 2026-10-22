@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RadioDialogue
   lines:
   - text: 'Please exit the mech.  '
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 9273c47283f8b0d49b90c15b24c3b275, type: 3}
   frequency: 185
   playerDialogue: {fileID: 11400000, guid: c72c612008716974f86066b990799de5, type: 2}

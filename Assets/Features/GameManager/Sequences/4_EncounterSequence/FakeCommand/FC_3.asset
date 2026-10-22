@@ -15,4 +15,4 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: From the top? What-
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 39fe0ded6e45c8d4a981b231b199d668, type: 3}

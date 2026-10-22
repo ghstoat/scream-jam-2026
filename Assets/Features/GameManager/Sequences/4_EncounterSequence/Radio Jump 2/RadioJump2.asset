@@ -15,6 +15,6 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: Eeeek!
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: b1863bae5cb88274caebf84769170e42, type: 3}
   - text: Not this again!
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: d905793b970468f46a274aa9c91aae3c, type: 3}

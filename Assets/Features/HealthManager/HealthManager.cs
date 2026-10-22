@@ -22,6 +22,8 @@ public class HealthManager : MonoBehaviour
     [SerializeField] PlayerDialogue lightheaded;
     private bool lockOxygen = false;
 
+    [SerializeField] GameObject oxygenWarning;
+
     [Header("Toxic")]
     private bool sickBool;
     [SerializeField] float maxTimeInToxic = 30f;
@@ -30,12 +32,17 @@ public class HealthManager : MonoBehaviour
     [SerializeField] PlayerDialogue sick;
     private bool lockToxicity = false;
 
+    [SerializeField] GameObject toxicWarning;
+
     [Header("Temperature")]
     [SerializeField] float maxTimeBadTemp = 30f;
     [SerializeField] float timeBeforeTempDialogue = 15f;
 
     private bool overheating;
     private bool freezing;
+
+    [SerializeField] GameObject overheatingWarning;
+    [SerializeField] GameObject freezingWarning;
 
     private float freezeTimer;
     private float overheatingTimer;
@@ -117,9 +124,10 @@ public class HealthManager : MonoBehaviour
 
     public void HandleOxygen()
     {
-        suffocating = false;
+        suffocating = OxygenManager.Instance.oxygen <= 0;
 
-        if (!lockOxygen) suffocating = OxygenManager.Instance.oxygen <= 0;
+        if (lockOxygen) suffocating = false;
+
 
         if (suffocating)
         {
@@ -149,6 +157,8 @@ public class HealthManager : MonoBehaviour
                     Mathf.Clamp01(oxygenTimer / maxTimeWithoutOxygen);
             }
         }
+
+        oxygenWarning.SetActive(suffocating);
     }
 
     public void LockToxicity(bool locked)
@@ -158,9 +168,9 @@ public class HealthManager : MonoBehaviour
 
     public void HandleToxicity()
     {
-        sickBool = false;
+        sickBool = VentManager.Instance.ToxicityFull;
 
-        if (!lockToxicity || freezing || overheating) sickBool = VentManager.Instance.ToxicityFull;
+        if (lockToxicity || freezing || overheating) sickBool = false;
 
         if (sickBool)
         {
@@ -190,6 +200,9 @@ public class HealthManager : MonoBehaviour
                     Mathf.Clamp01(sickTimer / maxTimeInToxic);
             }
         }
+
+        toxicWarning.SetActive(sickBool);
+
     }
 
     public void LockTemp(bool locked)
@@ -205,12 +218,11 @@ public class HealthManager : MonoBehaviour
 
     public void HandleFreezing()
     {
-        bool isFreezing = TemperatureManager.Instance.Freezing;
+        freezing = TemperatureManager.Instance.Freezing;
 
-        if (lockTemp)
-            isFreezing = false;
+        if (lockTemp || sickBool) freezing = false;
 
-        if (isFreezing)
+        if (freezing)
         {
             freezeTimer += Time.deltaTime;
 
@@ -240,16 +252,18 @@ public class HealthManager : MonoBehaviour
         {
             freezingCanvasGroup.alpha = 0;
         }
+
+        freezingWarning.SetActive(freezing);
+
     }
 
     public void HandleOverheating()
     {
-        bool isOverheating = TemperatureManager.Instance.Overheating;
+        overheating = TemperatureManager.Instance.Overheating;
 
-        if (lockTemp)
-            isOverheating = false;
+        if (lockTemp || sickBool) overheating = false;
 
-        if (isOverheating)
+        if (overheating)
         {
             overheatingTimer += Time.deltaTime;
 
@@ -279,5 +293,8 @@ public class HealthManager : MonoBehaviour
         {
             overheatingCanvasGroup.alpha = 0;
         }
+
+        overheatingWarning.SetActive(overheating);
+
     }
 }

@@ -62,16 +62,21 @@ public class SurviveSequence : Sequence
 
         TutorialManager.Instance.OpenTutorial(Tutorial.Oxygen);
 
-
-        yield return new WaitForSeconds(10f);
-
-        HealthManager.Instance.LockOxygen(false);
-
         bool reservoirEmptied = false;
 
+        float timeBeforeOxyStart = 10f;
 
         while (OxygenManager.Instance.OxygenRatio == 0)
         {
+            if (timeBeforeOxyStart > 0)
+            {
+                timeBeforeOxyStart -= Time.deltaTime;   
+                if (timeBeforeOxyStart <= 0)
+                {
+                    HealthManager.Instance.LockOxygen(false);
+                }
+            }
+
             if (PowerReservoir.Instance.PowerEmpty && !reservoirEmptied)
             {
                 reservoirEmptied = true;
@@ -100,16 +105,24 @@ public class SurviveSequence : Sequence
         yield return new WaitForSeconds(1.5f);
 
         TutorialManager.Instance.OpenTutorial(Tutorial.Heater);
+        float timeBeforeTempStart = 5;
 
-        yield return new WaitForSeconds(5f);
-
-        HealthManager.Instance.LockTemp(false);
-
-        float tempTimeNeeded = 10;
+        float tempTimeNeeded = 15;
         float timer = 0;
 
         while (timer < tempTimeNeeded)
         {
+
+            if (timeBeforeTempStart > 0)
+            {
+                timeBeforeTempStart -= Time.deltaTime;
+                if (timeBeforeTempStart <= 0)
+                {
+                    HealthManager.Instance.LockTemp(false);
+                }
+            }
+
+
             if (PowerReservoir.Instance.PowerEmpty && !reservoirEmptied)
             {
                 reservoirEmptied = true;
@@ -139,7 +152,7 @@ public class SurviveSequence : Sequence
         while (!dialogueEnded) yield return null;
 
 
-        PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Vent.transform, 1f, 1f);
+        PlayerController.Instance.LookAtTransform(CockpitManager.Instance.Vent.Lever.transform, 1f, 1f);
 
         yield return new WaitForSeconds(5f);
 
@@ -147,10 +160,21 @@ public class SurviveSequence : Sequence
 
         yield return new WaitForSeconds(0.1f);
 
-        HealthManager.Instance.LockToxicity(false); 
+        float timeBeforeToxicStart = 5f;
 
         while (!VentManager.Instance.Open)
         {
+            if (timeBeforeToxicStart > 0)
+            {
+                timeBeforeToxicStart -= Time.deltaTime;
+
+                if (timeBeforeToxicStart <= 0)
+                {
+                    HealthManager.Instance.LockToxicity(false);
+                }
+            }
+
+
             if (PowerReservoir.Instance.PowerEmpty && !reservoirEmptied)
             {
                 reservoirEmptied = true;

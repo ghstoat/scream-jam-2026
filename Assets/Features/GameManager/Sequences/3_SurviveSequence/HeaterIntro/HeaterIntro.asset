@@ -15,8 +15,8 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: 'Oh thank god!  '
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 4555d6d5a02196f42a115ca2072e35eb, type: 3}
   - text: 'The oxygen tank is filling! '
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 844430e316790574b948a7369ce0f689, type: 3}
   - text: I need to get the heater running next.
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: cd9ab603a0a1c1d4e90cf05f6c2825ca, type: 3}

@@ -464,10 +464,7 @@ MonoBehaviour:
   m_text: 'You are currently feeling SICK.
 
 
-    Allocate POWER to the ventilation system
-
-
-    Then PULL the LEVER to open or close the vent.
+    PULL the LEVER to open or close the vent.
 
 
     An OPEN VENT greatly improves the cockpit''s air quality and does NOT affect temperature!'
@@ -607,7 +604,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Click on objects to interact.
+  m_text: 'Click on objects to interact.
+
+
+    Hold alt to free your cursor.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
   m_sharedMaterial: {fileID: 4319321746800169697, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
@@ -1070,10 +1070,10 @@ MonoBehaviour:
   m_text: 'Looks like your POWER reservoir is EMPTY.
 
 
-    You will need to allocate POWER from a system that''s currently active.
+    REMOVE POWER from any active unnecessary systems if you need more (such as the radio)!
 
 
-    Divert POWER out of any unnecessary systems.'
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
   m_sharedMaterial: {fileID: 4319321746800169697, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
@@ -1995,10 +1995,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Start by clicking the on the POWER RESERVOIR node.
-
-
-    Then, find and click on the RADIO node. '
+  m_text: 'Let''s move power from the RESERVOIR node to the RADIO node. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
   m_sharedMaterial: {fileID: 4319321746800169697, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
@@ -2280,10 +2277,7 @@ MonoBehaviour:
     Allocating POWER to the HEATER increases it''s strength.
 
 
-    Adjust until the INTERAL TEMPERATURE is in the green zone.
-
-
-    Note : A shaking mech is a sign that a solar flare has just occured. '
+    Adjust until the INTERAL TEMPERATURE is in the green zone. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
   m_sharedMaterial: {fileID: 4319321746800169697, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}

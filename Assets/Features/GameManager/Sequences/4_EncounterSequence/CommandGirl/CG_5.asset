@@ -15,4 +15,4 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: Stay calm? How can I-
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: ec1fea7cf849a6d4ba9903c717761aa1, type: 3}

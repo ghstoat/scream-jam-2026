@@ -15,4 +15,4 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: Ahhhhh!
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: bf95594f53d31dc40b4a122f1d4d2f22, type: 3}

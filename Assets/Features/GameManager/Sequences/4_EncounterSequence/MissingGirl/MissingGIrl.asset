@@ -15,4 +15,4 @@ MonoBehaviour:
   priority: 1
   lines:
   - text: Oh god! Where did it go?!
-    voiceline: {fileID: 0}
+    voiceline: {fileID: 8300000, guid: 675016e2dc88b274d8d609f7c131c197, type: 3}

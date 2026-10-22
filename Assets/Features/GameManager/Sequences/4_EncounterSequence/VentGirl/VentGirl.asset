@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDialogue
   priority: 1
   lines:
-  - text: Oh shit!
-    voiceline: {fileID: 0}
+  - text: Oh bylat!
+    voiceline: {fileID: 8300000, guid: 93d480f3721109b419ff320c81682052, type: 3}
