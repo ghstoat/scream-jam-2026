@@ -5,7 +5,7 @@ public class GhostGirl2Manager : MonoBehaviour
     public static GhostGirl2Manager Instance { get; private set; }
 
     [SerializeField] Animator animator;
-
+    [SerializeField] AudioSource source;
 
     private void Awake()
     {
@@ -22,5 +22,6 @@ public class GhostGirl2Manager : MonoBehaviour
     public void Jump()  
     {
         animator.SetTrigger("JUMP");
+        source.Play();
     }
 }

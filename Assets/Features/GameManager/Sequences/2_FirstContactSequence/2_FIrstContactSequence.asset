@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6544dd6ac388b2443a20b2a22a20c8c5, type: 3}
   m_Name: 2_FIrstContactSequence
   m_EditorClassIdentifier: Assembly-CSharp::FirstContactSequence
-  delay: 0
-  ready: 1
   finished: 0
-  music: {fileID: 0}
+  music: {fileID: 8300000, guid: ab8995b248b0ea74180f782b47e7aa09, type: 3}
   nowWhat: {fileID: 11400000, guid: 27fb5df0267ea514f86c16ee8ae1cbde, type: 2}
   radioJump: {fileID: 11400000, guid: 03dcdc518c5bb6848b7165010bed5695, type: 2}
   firstContact: {fileID: 11400000, guid: 4f6cbacab6b07c4478b82faf38030018, type: 2}

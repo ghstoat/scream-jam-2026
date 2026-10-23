@@ -16,7 +16,7 @@ public class VentManager : PoweredSystem
     public float toxicity { get; private set; }
     public bool ToxicityFull => toxicity == maxToxicity;
     public float ToxicityRatio => toxicity / maxToxicity;
-    
+
 
     public bool opening { get; private set; } = false;
 
@@ -97,14 +97,23 @@ public class VentManager : PoweredSystem
 
     private IEnumerator ObjectInVentRoutine()
     {
+        float unidentifiedObjectTimer = 0;
+
 
         while (true)
         {
+            unidentifiedObjectTimer -= Time.deltaTime;
 
-            CockpitManager.Instance.ForceDialogue(unidentifiedObject);
-           
+            if (unidentifiedObjectTimer <= 0)
+            {
+                CockpitManager.Instance.ForceDialogue(unidentifiedObject);
+                unidentifiedObjectTimer = 3;
+            }
 
-            yield return new WaitForSeconds(3f);
+
+
+
+            yield return null;
         }
 
     }

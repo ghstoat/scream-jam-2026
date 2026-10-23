@@ -9,6 +9,8 @@ public class EncounterSequence : Sequence
     private bool radioDialogueStarted = false;
     private bool radioDialogueEnded = false;
     private bool flashed = false;
+    [SerializeField] AudioClip ghostGirlMusic;
+    [SerializeField] AudioClip ghostGirlMusic2;
 
     [SerializeField] PlayerDialogue encounter;
     [SerializeField] PlayerDialogue scare;
@@ -59,6 +61,7 @@ public class EncounterSequence : Sequence
         while (!dialogueEnded) yield return null;
 
         MissionManager.Instance.SetMission("Investigate the strange figure in the camera");
+        MusicManager.Instance.PlayMusic(ghostGirlMusic, .07f, 0, 3, true, false);
 
         float timeBeforeClue = 120;
 
@@ -108,6 +111,8 @@ public class EncounterSequence : Sequence
         GhostGirlManager.Instance.Jump();
 
         PlayerDialogueManager.Instance.ForceDialogue(scare);
+
+        MusicManager.Instance.PlayMusic(ghostGirlMusic2, .07f, 0, 1, true, false);
 
         dialogueEnded = false;
         while (!dialogueEnded) yield return null;
@@ -174,7 +179,7 @@ public class EncounterSequence : Sequence
 
         VentManager.Instance.SomethingInVent(true);
 
-        //play ghost girl entering vent sfx
+        CockpitManager.Instance.Vent.SetGhostInVent(true);
 
 
 
@@ -197,6 +202,7 @@ public class EncounterSequence : Sequence
 
         yield return new WaitForSeconds(10);
         VentManager.Instance.SomethingInVent(false);
+        CockpitManager.Instance.Vent.SetGhostInVent(false);
 
 
         while (VentManager.Instance.Closed) yield return null;
@@ -208,7 +214,7 @@ public class EncounterSequence : Sequence
         GhostGirl2Manager.Instance.Jump();
         PlayerDialogueManager.Instance.ForceDialogue(girlScare);
 
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(1.17f);
 
         asyncLoad.allowSceneActivation = true;
 

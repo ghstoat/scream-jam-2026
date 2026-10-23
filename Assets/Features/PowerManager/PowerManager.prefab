@@ -154,7 +154,7 @@ MonoBehaviour:
   minExtTemp: -40
   maxExtTemp: 0
   maxHeaterTemp: 50
-  tempChangeSpeed: 4
+  tempChangeSpeed: 10
   maxLightTemp: 10570
   minLightTemp: 2570
   minTimeBetweenSolarFlares: 100
@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1deb70d441f72d6428167b83f91b00ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerManager
-  totalPower: 325
+  totalPower: 360
   allPoweredSystems:
   - {fileID: 7958987884206351099}
   - {fileID: 1368487882401850056}

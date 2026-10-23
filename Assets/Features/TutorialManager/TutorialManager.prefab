@@ -1246,7 +1246,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Everything in your ship requires POWER.\n\nHowever POWER is a limited resource.\n\nUse the POWER switcher on your left \nto allocate power to the radio.\n\n"
+  m_text: 'Everything in your ship requires POWER.
+
+
+    However POWER is a limited resource.
+
+
+    Use the POWER switcher to move power between ANY two systems.
+
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
   m_sharedMaterial: {fileID: 4319321746800169697, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
@@ -1699,7 +1708,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Click on two nodes to connect them.\n\nThen, spin the valve to move power \nfrom BLUE to RED "
+  m_text: "Click on two nodes to connect them.\n\nThen, spin the valve to move power \nfrom the BLUE jack to the RED jack.\n\nYou can move power between ANY two nodes. "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
   m_sharedMaterial: {fileID: 4319321746800169697, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
@@ -1995,7 +2004,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Let''s move power from the RESERVOIR node to the RADIO node. '
+  m_text: "Let's move power from the RESERVOIR node to the RADIO node.\n\nClick the two nodes to CONNECT them, then spin the VALVE.\n\n "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
   m_sharedMaterial: {fileID: 4319321746800169697, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
@@ -2271,13 +2280,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'You are currently FREEZING to death.
-
-
-    Allocating POWER to the HEATER increases it''s strength.
-
-
-    Adjust until the INTERAL TEMPERATURE is in the green zone. '
+  m_text: "You are currently FREEZING to death.\n\nAllocating POWER to the HEATER increases it's strength. \n\nDON'T overdo it though! Or you might overheat yourself.\n\nAdjust until the INTERAL TEMPERATURE is in the green zone. "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
   m_sharedMaterial: {fileID: 4319321746800169697, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: 4_EncounterSequence
   m_EditorClassIdentifier: Assembly-CSharp::EncounterSequence
   finished: 0
+  ghostGirlMusic: {fileID: 8300000, guid: c05ea80317c1d3e41bfad1f26433bc4d, type: 3}
+  ghostGirlMusic2: {fileID: 8300000, guid: c4ffa6f162610b04fa11db6308bbf2e2, type: 3}
   encounter: {fileID: 11400000, guid: 61e65855b4afcdb42b375079282941f5, type: 2}
   scare: {fileID: 11400000, guid: 662acb550c5f9344bb8bfac055b0be74, type: 2}
   radioJump2: {fileID: 11400000, guid: f9be74b249f548f419b6307d21fc2fe2, type: 2}

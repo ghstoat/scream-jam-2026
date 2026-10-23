@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Vent : MonoBehaviour
@@ -24,6 +25,12 @@ public class Vent : MonoBehaviour
     public Interactable Lever => lever;
 
     private bool closedLastFrame;
+
+
+    [SerializeField] AudioSource openVentGhostSource;
+    [SerializeField] AudioSource closedVentGhostSource;
+
+    private Coroutine ghostInVentRoutine;
 
     private void Start()
     {
@@ -97,5 +104,47 @@ public class Vent : MonoBehaviour
         VentManager.Instance.TryToClose();
 
     }
+    
+    public void SetGhostInVent(bool yes)
+    {
+        if (yes)
+        {
+            if (ghostInVentRoutine != null) return;
+            ghostInVentRoutine = StartCoroutine(GhostInVentRoutine());
+        }
 
+        else
+        {
+            if (ghostInVentRoutine != null) StopCoroutine(ghostInVentRoutine);
+            ghostInVentRoutine = null;
+
+            openVentGhostSource.volume = 0;
+            closedVentGhostSource.volume = 0;
+        }
+    }
+
+    private IEnumerator GhostInVentRoutine()
+    {
+
+
+        while (true)
+        {
+            bool closed = VentManager.Instance.Closed;
+
+            if (closed)
+            {
+                openVentGhostSource.volume = 0;
+                closedVentGhostSource.volume = 1;
+            }
+            else
+            {
+                openVentGhostSource.volume = 1;
+                closedVentGhostSource.volume = 0;
+            }
+
+
+
+            yield return null;
+        }
+    }
 }

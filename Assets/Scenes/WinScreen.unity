@@ -355,27 +355,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Thanks for playing!
-
-
-    We wanted to include more but didn''t have the time :(
-
-
-    Lead Developer - IIStoat (@project2pf on insta)
-
-    Lead Artist - Sterling (@sterlingsteel_ on insta)
-
-    Artist - yesnomad
-
-    Music - CURSOR
-
-    SFX - chefjeff
-
-    Birdie - imstealingyourspoons
-
-    Command/Alarm - ruu
-
-'
+  m_text: "Thanks for playing!\n\nWe wanted to include more but didn't have the time :(\n\nLead Developer - IIStoat (@project2pf)\r\nLead Artist - Sterling (@sterlingsteel_)\r\nArtist - yesnomad (\u200Bput your socials here\u200B)\r\nSound Designer - Jeff Gilbert (sunnyboysound\u200B)\u200B\r\nMusic - CURSOR (@imcurs0r)\r\nVoice Acting (Birdie) - spoons (@imstealingyourspoons.va)\r\nVoice Acting (Command/Alarm) - ruu (@ruuruuva\u200B)\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}
   m_sharedMaterial: {fileID: 4319321746800169697, guid: b570ce19c05472046b0c7e2656690a0e, type: 2}

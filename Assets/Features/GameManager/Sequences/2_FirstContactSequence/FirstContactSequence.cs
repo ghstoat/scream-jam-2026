@@ -9,7 +9,6 @@ public class FirstContactSequence : Sequence
     private bool radioDialogueEnded = false;
 
 
-    [SerializeField] AudioClip music;
 
     [SerializeField] PlayerDialogue nowWhat;
     [SerializeField] PlayerDialogue radioJump;
@@ -39,13 +38,13 @@ public class FirstContactSequence : Sequence
         CockpitManager.Instance.SetState(CockpitState.Default);
 
         yield return new WaitForSeconds(8);
-        //MusicManager.Instance.PlayMusic(music, .5f, 0, 0, true, true);
 
         PlayerDialogueManager.Instance.ForceDialogue(nowWhat);
 
         dialogueEnded = false;
         while (!dialogueEnded) yield return null;
         PlayerDialogueManager.Instance.ignoreNonPriority = false;
+
 
         MissionManager.Instance.SetMission("Assess your situation");
 
